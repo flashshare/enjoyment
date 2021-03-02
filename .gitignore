@@ -103,3 +103,8 @@ tmp
 #####################
 .VimballRecord
 .netrwhist
+
+# obsidian
+.obsidian/
+.trash/
+.DS_Store
