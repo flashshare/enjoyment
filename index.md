@@ -20,7 +20,8 @@ For more examples and information, please visit the following articles:
 
 1. **[[Exploring the features of Enjoyment work]]**
 2. **[[Example Page to View Markdown Rendering]]**
-3. **[[2020-03-01-How-to-setup-enjoyment-work.md]]**
+3. **[[How-To Setup Enjoyment work]]**
+3. **[[(Sample Essay) Informational Hazard - Thinking Before Consuming]]**
 
 ## About {{site.title}}
 
