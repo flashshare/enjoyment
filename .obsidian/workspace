@@ -1,0 +1,232 @@
+{
+  "main": {
+    "id": "9b0d5d6e4135efb0",
+    "type": "split",
+    "children": [
+      {
+        "id": "59201456e95f65b1",
+        "type": "leaf",
+        "state": {
+          "type": "backlink",
+          "state": {
+            "file": "_notes/Hello world.md",
+            "collapseAll": false,
+            "extraContext": false,
+            "sortOrder": "alphabetical",
+            "backlinkCollapsed": false,
+            "unlinkedCollapsed": true
+          }
+        }
+      },
+      {
+        "id": "8903807853c9e1b2",
+        "type": "leaf",
+        "state": {
+          "type": "backlink",
+          "state": {
+            "file": "_notes/Hello world.md",
+            "collapseAll": false,
+            "extraContext": false,
+            "sortOrder": "alphabetical",
+            "backlinkCollapsed": false,
+            "unlinkedCollapsed": true
+          }
+        }
+      },
+      {
+        "id": "3556f01994c123af",
+        "type": "leaf",
+        "state": {
+          "type": "markdown",
+          "state": {
+            "file": "index.md",
+            "mode": "preview"
+          }
+        }
+      },
+      {
+        "id": "4b53822b7f0a20f8",
+        "type": "leaf",
+        "active": true,
+        "state": {
+          "type": "markdown",
+          "state": {
+            "file": "_notes/Hello world.md",
+            "mode": "source"
+          }
+        }
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "6d0e40fcb91fd316",
+    "type": "split",
+    "children": [
+      {
+        "id": "405f1f5341e0a3e1",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "72a88e291ec337ac",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {}
+            }
+          },
+          {
+            "id": "135990e020d8dfd3",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "5198d0674a198a6b",
+            "type": "leaf",
+            "state": {
+              "type": "empty",
+              "state": {}
+            }
+          },
+          {
+            "id": "7682367a711c8096",
+            "type": "leaf",
+            "state": {
+              "type": "starred",
+              "state": {}
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 340
+  },
+  "right": {
+    "id": "bef299c3aa1634ff",
+    "type": "split",
+    "children": [
+      {
+        "id": "0bb8dbe6a4880bdb",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "8c6a220d6f68657f",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "_notes/Hello world.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "backlinkCollapsed": true,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "d2d4e98aa5681826",
+            "type": "leaf",
+            "state": {
+              "type": "empty",
+              "state": {}
+            }
+          },
+          {
+            "id": "87701a89d3f5daeb",
+            "type": "leaf",
+            "state": {
+              "type": "empty",
+              "state": {}
+            }
+          },
+          {
+            "id": "314089e8daea597d",
+            "type": "leaf",
+            "state": {
+              "type": "empty",
+              "state": {}
+            }
+          },
+          {
+            "id": "ebd3ea8b318dbe9e",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true
+              }
+            }
+          },
+          {
+            "id": "e6d8521fb3912270",
+            "type": "leaf",
+            "state": {
+              "type": "calendar",
+              "state": {}
+            }
+          },
+          {
+            "id": "aad22f5cfef6f17e",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "_notes/Hello world.md"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": "9ee18a8b51b02d95",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "a9fd0fa6a3c249e0",
+            "type": "leaf",
+            "state": {
+              "type": "empty",
+              "state": {}
+            }
+          },
+          {
+            "id": "7ab0477412553f81",
+            "type": "leaf",
+            "state": {
+              "type": "graph",
+              "state": {}
+            }
+          }
+        ],
+        "currentTab": 1
+      }
+    ],
+    "direction": "horizontal",
+    "width": 325
+  },
+  "lastOpenFiles": [
+    "_notes/Hello world.md",
+    "index.md",
+    "Untitled.md",
+    "_notes/Humility is the knowing of the epistemic gap.md",
+    "_notes/Epistemic humility to avoid unintended ontological dust while writing.md",
+    "_notes/Everyone should have a project that they control 100% of.md",
+    "_notes/Dark theme adoption as a function of cognitive exhaustion.md",
+    "_notes/Comparison based on accomplishment does not have a baseline.md",
+    "_notes/Cultural artefacts to improve the resonance and life expectancy of your writing.md",
+    "assets/img/backlinks.png"
+  ]
+}
