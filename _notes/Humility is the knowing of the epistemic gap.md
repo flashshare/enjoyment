@@ -11,3 +11,7 @@ Most of the issue of not understanding the fragility of one's epistemic confiden
 ## Reference
 
 Taleb, Nicholas Nassim. (2015). _Antifragile: Things that gain from disorder_
+
+- Program
+1. 
+2. 
