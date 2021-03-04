@@ -4,24 +4,13 @@
     "type": "split",
     "children": [
       {
-        "id": "3556f01994c123af",
+        "id": "11b772d253d691dc",
         "type": "leaf",
         "active": true,
         "state": {
           "type": "markdown",
           "state": {
-            "file": "_notes/Hello world.md",
-            "mode": "preview"
-          }
-        }
-      },
-      {
-        "id": "4b53822b7f0a20f8",
-        "type": "leaf",
-        "state": {
-          "type": "markdown",
-          "state": {
-            "file": "_notes/Hello world.md",
+            "file": "_notes/Humility is the knowing of the epistemic gap.md",
             "mode": "source"
           }
         }
@@ -96,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "_notes/Hello world.md",
+                "file": "_notes/Humility is the knowing of the epistemic gap.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -146,7 +135,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "_notes/Hello world.md"
+                "file": "_notes/Humility is the knowing of the epistemic gap.md"
               }
             }
           }
@@ -177,13 +166,13 @@
       }
     ],
     "direction": "horizontal",
-    "width": 325
+    "width": 261
   },
   "lastOpenFiles": [
-    "_notes/Hello world.md",
-    "index.md",
-    "Untitled.md",
     "_notes/Humility is the knowing of the epistemic gap.md",
+    "index.md",
+    "_notes/Hello world.md",
+    "Untitled.md",
     "_notes/Epistemic humility to avoid unintended ontological dust while writing.md",
     "_notes/Everyone should have a project that they control 100% of.md",
     "_notes/Dark theme adoption as a function of cognitive exhaustion.md",
