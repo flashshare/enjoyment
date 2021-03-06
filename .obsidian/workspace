@@ -10,8 +10,8 @@
         "state": {
           "type": "markdown",
           "state": {
-            "file": "_notes/Humility is the knowing of the epistemic gap.md",
-            "mode": "source"
+            "file": "_notes/Cultural artefacts to improve the resonance and life expectancy of your writing.md",
+            "mode": "preview"
           }
         }
       }
@@ -104,7 +104,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "_notes/Humility is the knowing of the epistemic gap.md",
+                "file": "_notes/Cultural artefacts to improve the resonance and life expectancy of your writing.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -143,7 +143,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "_notes/Humility is the knowing of the epistemic gap.md"
+                "file": "_notes/Cultural artefacts to improve the resonance and life expectancy of your writing.md"
               }
             }
           }
@@ -178,6 +178,7 @@
     "width": 261
   },
   "lastOpenFiles": [
+    "_notes/Cultural artefacts to improve the resonance and life expectancy of your writing.md",
     "_notes/Humility is the knowing of the epistemic gap.md",
     "index.md",
     "_notes/Hello world.md",
@@ -186,7 +187,6 @@
     "_notes/Everyone should have a project that they control 100% of.md",
     "_notes/Dark theme adoption as a function of cognitive exhaustion.md",
     "_notes/Comparison based on accomplishment does not have a baseline.md",
-    "_notes/Cultural artefacts to improve the resonance and life expectancy of your writing.md",
     "assets/img/backlinks.png"
   ]
 }
