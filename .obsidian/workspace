@@ -9,7 +9,7 @@
         "state": {
           "type": "backlink",
           "state": {
-            "file": "_notes/Hello world.md",
+            "file": "_notes/My third check with Git plugin.md",
             "collapseAll": false,
             "extraContext": false,
             "sortOrder": "alphabetical",
@@ -24,7 +24,7 @@
         "state": {
           "type": "backlink",
           "state": {
-            "file": "_notes/Hello world.md",
+            "file": "_notes/My third check with Git plugin.md",
             "collapseAll": false,
             "extraContext": false,
             "sortOrder": "alphabetical",
@@ -36,11 +36,22 @@
       {
         "id": "11b772d253d691dc",
         "type": "leaf",
-        "active": true,
         "state": {
           "type": "markdown",
           "state": {
             "file": "_notes/Hello world.md",
+            "mode": "source"
+          }
+        }
+      },
+      {
+        "id": "25cb8a73cc743a28",
+        "type": "leaf",
+        "active": true,
+        "state": {
+          "type": "markdown",
+          "state": {
+            "file": "_notes/My third check with Git plugin.md",
             "mode": "source"
           }
         }
@@ -145,7 +156,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "_notes/Hello world.md",
+                "file": "_notes/My third check with Git plugin.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -184,7 +195,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "_notes/Hello world.md"
+                "file": "_notes/My third check with Git plugin.md"
               }
             }
           }
@@ -219,10 +230,10 @@
     "width": 261
   },
   "lastOpenFiles": [
+    "_notes/Untitled.md",
     "_notes/Hello world.md",
     "_notes/Everyone should have a project that they control 100% of.md",
     "_notes/Cultural artefacts to improve the resonance and life expectancy of your writing.md",
-    "_notes/Untitled.md",
     "_notes/Humility is the knowing of the epistemic gap.md",
     "index.md",
     "Untitled.md",
