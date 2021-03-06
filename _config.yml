@@ -13,7 +13,7 @@ notes_url: "https://nguyentruongan.netlify.app"
 profile_pic: "https://brennanbrown.ca/img/avatar.jpg"
 favicon: /assets/img/favicon.png
 baseurl: "" # the subpath of your site, e.g. /blog
-url: "https://nguyentruongan.netlify.app/notes" # the base hostname & protocol for your site, e.g. https://example.com
+url: "https://nguyentruongan.netlify.app" # the base hostname & protocol for your site, e.g. https://example.com
 theme_color: white
 encoding: utf-8
 
