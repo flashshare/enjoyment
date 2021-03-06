@@ -9,7 +9,7 @@
         "state": {
           "type": "backlink",
           "state": {
-            "file": "_notes/Cultural artefacts to improve the resonance and life expectancy of your writing.md",
+            "file": "_notes/Hello world.md",
             "collapseAll": false,
             "extraContext": false,
             "sortOrder": "alphabetical",
@@ -24,7 +24,7 @@
         "state": {
           "type": "backlink",
           "state": {
-            "file": "_notes/Cultural artefacts to improve the resonance and life expectancy of your writing.md",
+            "file": "_notes/Hello world.md",
             "collapseAll": false,
             "extraContext": false,
             "sortOrder": "alphabetical",
@@ -40,7 +40,7 @@
         "state": {
           "type": "markdown",
           "state": {
-            "file": "_notes/Cultural artefacts to improve the resonance and life expectancy of your writing.md",
+            "file": "_notes/Hello world.md",
             "mode": "source"
           }
         }
@@ -145,7 +145,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "_notes/Cultural artefacts to improve the resonance and life expectancy of your writing.md",
+                "file": "_notes/Hello world.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -184,7 +184,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "_notes/Cultural artefacts to improve the resonance and life expectancy of your writing.md"
+                "file": "_notes/Hello world.md"
               }
             }
           }
@@ -219,14 +219,14 @@
     "width": 261
   },
   "lastOpenFiles": [
+    "_notes/Hello world.md",
+    "_notes/Everyone should have a project that they control 100% of.md",
     "_notes/Cultural artefacts to improve the resonance and life expectancy of your writing.md",
     "_notes/Untitled.md",
     "_notes/Humility is the knowing of the epistemic gap.md",
     "index.md",
-    "_notes/Hello world.md",
     "Untitled.md",
     "_notes/Epistemic humility to avoid unintended ontological dust while writing.md",
-    "_notes/Everyone should have a project that they control 100% of.md",
     "_notes/Dark theme adoption as a function of cognitive exhaustion.md",
     "_notes/Comparison based on accomplishment does not have a baseline.md"
   ]
