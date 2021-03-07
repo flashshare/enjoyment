@@ -1,10 +1,10 @@
 # Site Data
-title: "An Nguyen"
-tagline: " — a Digital Garden 🌱"
-name: "Nguyen Truong An"
+title: "An Nguyen's Garden 🌻"
+tagline: ""
+name: "An Nguyen"
 author_bio:
-  "Hello! My names is Nguyen Truong An"
-description: "Welcome to the Digital Garden of Nguyen Truong An, a young researcher in Environmental Science. You will find my thougts, my career path with this website."
+  "Hello! My names is Nguyen Truong An, a young researcher in Environmental Science. "
+description: "Welcome to the Digital Garden You will find my thougts, some useful notes with this website."
 footer_description:
   'Some description about my website -- still under construction!'
 notes_url: "https://nguyentruongan.netlify.app"
