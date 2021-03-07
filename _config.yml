@@ -1,16 +1,14 @@
 # Site Data
-title: "Nguyen Truong An"
+title: "An Nguyen"
 tagline: " — a Digital Garden 🌱"
 name: "Nguyen Truong An"
 author_bio:
   "Hello! My names is Nguyen Truong An"
 description: "Welcome to the Digital Garden of Nguyen Truong An, a young researcher in Environmental Science. You will find my thougts, my career path with this website."
 footer_description:
-  'The phrase "digital garden" is a metaphor for thinking about writing and creating that focuses less on the
-  resulting "showpiece" and more on the process, care, and craft it takes to get there. While not everybody
-  has or works in a dirt garden, we all share a familiarity with the idea of what a garden is.'
+  'Some description about my website -- still under construction!'
 notes_url: "https://nguyentruongan.netlify.app"
-profile_pic: "https://brennanbrown.ca/img/avatar.jpg"
+profile_pic: /assets/img/favicon.png # or "https://upload.wikimedia.org/wikipedia/commons/1/1a/Zettelkasten_paper_schematic.png"
 favicon: /assets/img/favicon.png
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://nguyentruongan.netlify.app" # the base hostname & protocol for your site, e.g. https://example.com
@@ -18,12 +16,9 @@ theme_color: white
 encoding: utf-8
 
 # Links and Social Media
-donate_link: https://ko-fi.com/brennanbrown
-repository: https://github.com/brennanbrown/enjoyment-work
-github: https://github.com/brennanbrown
-twitter: https://twitter.com/brennankbrown
-portfolio: https://brennanbrown.ca
-email: mail@brennanbrown.ca
+github: https://github.com/vnscience
+twitter: ----
+email: ----
 
 # Build Settings
 theme: null
