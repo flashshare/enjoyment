@@ -1,5 +1,5 @@
 ---
 layout: default
 permalink: /notes
-title: Catalogue of Notes
+title: Quick Notes
 ---
