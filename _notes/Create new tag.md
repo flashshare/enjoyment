@@ -1,12 +1,12 @@
 ---
-tags:
+tags: ❤️ 
 aliases: 
   - 
 cssclass:
 ---
 
 Links: [[MAIN CONTENT]]
-Tags: #🗺️
+Tags: #🗺️ #❤️
 
 ---
 

@@ -4,12 +4,12 @@
     "type": "split",
     "children": [
       {
-        "id": "47c50b281af7ebb1",
+        "id": "87fab101d2834197",
         "type": "leaf",
         "state": {
           "type": "backlink",
           "state": {
-            "file": "_notes/All emoji.md",
+            "file": "_notes/Create new tag.md",
             "collapseAll": false,
             "extraContext": false,
             "sortOrder": "alphabetical",
@@ -19,17 +19,17 @@
         }
       },
       {
-        "id": "4369022b05e8bf2a",
+        "id": "6ae6c9c2acf69f77",
         "type": "leaf",
         "state": {
           "type": "backlink",
           "state": {
-            "file": "_notes/All emoji.md",
+            "file": "_notes/Create new tag.md",
             "collapseAll": false,
             "extraContext": false,
             "sortOrder": "alphabetical",
             "backlinkCollapsed": false,
-            "unlinkedCollapsed": false
+            "unlinkedCollapsed": true
           }
         }
       },
@@ -40,7 +40,7 @@
         "state": {
           "type": "markdown",
           "state": {
-            "file": "_notes/All emoji.md",
+            "file": "_notes/Create new tag.md",
             "mode": "source"
           }
         }
@@ -145,7 +145,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "_notes/All emoji.md",
+                "file": "_notes/Create new tag.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -184,7 +184,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "_notes/All emoji.md"
+                "file": "_notes/Create new tag.md"
               }
             }
           }
@@ -219,6 +219,8 @@
     "width": 261
   },
   "lastOpenFiles": [
+    "_notes/Create new tag.md",
+    "_notes/All emoji.md",
     "_notes/gitmoji.md",
     "_notes/gitmoji1.md",
     "_notes/How to use Github.md",
@@ -226,8 +228,6 @@
     "_notes/Untitled.md",
     "_notes/Hello world.md",
     "_notes/Humility is the knowing of the epistemic gap.md",
-    "_posts/2020-01-01-Test-page-to-see-how-the-markdown-is-rendered.md",
-    "_notes/todaynote.md",
-    "_notes/Serendipity-based outlook as a driver for large-scale personal projects.md"
+    "_posts/2020-01-01-Test-page-to-see-how-the-markdown-is-rendered.md"
   ]
 }
