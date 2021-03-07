@@ -4,12 +4,12 @@
     "type": "split",
     "children": [
       {
-        "id": "6de4a79aba7279e3",
+        "id": "47c50b281af7ebb1",
         "type": "leaf",
         "state": {
           "type": "backlink",
           "state": {
-            "file": "_notes/My third check with Git plugin.md",
+            "file": "_notes/All emoji.md",
             "collapseAll": false,
             "extraContext": false,
             "sortOrder": "alphabetical",
@@ -19,50 +19,39 @@
         }
       },
       {
-        "id": "928a618fc5e3e1f9",
+        "id": "4369022b05e8bf2a",
         "type": "leaf",
         "state": {
           "type": "backlink",
           "state": {
-            "file": "_notes/My third check with Git plugin.md",
+            "file": "_notes/All emoji.md",
             "collapseAll": false,
             "extraContext": false,
             "sortOrder": "alphabetical",
             "backlinkCollapsed": false,
-            "unlinkedCollapsed": true
+            "unlinkedCollapsed": false
           }
         }
       },
       {
-        "id": "11b772d253d691dc",
-        "type": "leaf",
-        "state": {
-          "type": "markdown",
-          "state": {
-            "file": "_notes/Hello world.md",
-            "mode": "source"
-          }
-        }
-      },
-      {
-        "id": "25cb8a73cc743a28",
+        "id": "57c9d4ce2b46923d",
         "type": "leaf",
         "active": true,
         "state": {
           "type": "markdown",
           "state": {
-            "file": "_notes/My third check with Git plugin.md",
+            "file": "_notes/All emoji.md",
             "mode": "source"
           }
         }
       },
       {
-        "id": "b67f5d4e7c093250",
+        "id": "2d02b296c8274a11",
         "type": "leaf",
         "state": {
           "type": "markdown",
           "state": {
-            "file": "_notes/How to use Github.md",
+            "file": "_notes/How to create new notes for this blog.md",
             "mode": "source"
           }
         }
@@ -156,7 +145,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "_notes/My third check with Git plugin.md",
+                "file": "_notes/All emoji.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -195,7 +184,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "_notes/My third check with Git plugin.md"
+                "file": "_notes/All emoji.md"
               }
             }
           }
@@ -230,15 +219,15 @@
     "width": 261
   },
   "lastOpenFiles": [
+    "_notes/gitmoji.md",
+    "_notes/gitmoji1.md",
+    "_notes/How to use Github.md",
+    "_notes/How to create new notes for this blog.md",
     "_notes/Untitled.md",
     "_notes/Hello world.md",
-    "_notes/Everyone should have a project that they control 100% of.md",
-    "_notes/Cultural artefacts to improve the resonance and life expectancy of your writing.md",
     "_notes/Humility is the knowing of the epistemic gap.md",
-    "index.md",
-    "Untitled.md",
-    "_notes/Epistemic humility to avoid unintended ontological dust while writing.md",
-    "_notes/Dark theme adoption as a function of cognitive exhaustion.md",
-    "_notes/Comparison based on accomplishment does not have a baseline.md"
+    "_posts/2020-01-01-Test-page-to-see-how-the-markdown-is-rendered.md",
+    "_notes/todaynote.md",
+    "_notes/Serendipity-based outlook as a driver for large-scale personal projects.md"
   ]
 }

@@ -5,7 +5,7 @@ aliases:
 cssclass: 
 ---
 
-#### [[{{title}}]]
+## [[{{title}}]]
 
 ---
 

@@ -10,7 +10,7 @@ Tags: #🗺️
 
 ---
 
-## [[{{title}}]]
+## [[Create new tag]]
 
 ---
 
