@@ -104,9 +104,9 @@ tmp
 .VimballRecord
 .netrwhist
 
+# Obsidian files to ignore #
+#####################
 .obsidian/  # to exclude Obsidian workspace settings (including plugin and hotkey configurations)
-# OR
-.obsidian/workspace  # to exlude workspace cache
 
 # Add below lines to exclude OS settings and caches
 .trash/
