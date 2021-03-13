@@ -8,14 +8,13 @@ permalink: /
 
 [**My Brain Notes Network:**](/notes)
 
-    <div class="grid-element">
-      {% assign notes = site.notes | where_exp: "item", "item.path contains 'notes'" %}
-      <p>
-        These <a class="internal-link" href="/notes">{{ notes.size }} notes</a> are an exploration in digital gardening.
-      </p>
+<div class="grid-element">
+    <p>
+	    These <a class="internal-link" href="/notes">{{ notes.size }} notes</a> are an exploration in digital gardening.
+    </p>
 
-      {% include notes_graph.html %}
-    </div>
+    {% include notes_graph.html %}
+</div>
 
 [**Daily Progress Journal:**](/journals)
    - A more simple section for daily public writing that could be built into more complex and well-connected notes.
