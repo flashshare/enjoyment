@@ -5,6 +5,8 @@ permalink: /
 
 ## About {{site.title}}
 
+
+1. [**My Brain Notes Network:**](/notes)
 <div class="grid-element">
     <h2>Notes 👨‍💻</h2>
 
@@ -15,9 +17,6 @@ permalink: /
 
     {% include notes_graph.html %}
 </div>
-
-1. [**My Brain Notes Network:**](/notes)
-   - Note-taking within this project is powerful, utilizing several unique features such as: Roam-style double bracket link syntax to other notes, auto-generated backlinks, on-hover page previews, support for responsive margin-notes,
 2. [**Daily Progress Journal:**](/journals)
    - A more simple section for daily public writing that could be built into more complex and well-connected notes.
 3. [**A Blog:**](/posts)
