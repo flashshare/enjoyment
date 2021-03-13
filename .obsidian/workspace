@@ -144,30 +144,6 @@
             }
           },
           {
-            "id": "d2d4e98aa5681826",
-            "type": "leaf",
-            "state": {
-              "type": "empty",
-              "state": {}
-            }
-          },
-          {
-            "id": "87701a89d3f5daeb",
-            "type": "leaf",
-            "state": {
-              "type": "empty",
-              "state": {}
-            }
-          },
-          {
-            "id": "314089e8daea597d",
-            "type": "leaf",
-            "state": {
-              "type": "empty",
-              "state": {}
-            }
-          },
-          {
             "id": "aad22f5cfef6f17e",
             "type": "leaf",
             "state": {
@@ -194,7 +170,7 @@
             }
           }
         ],
-        "currentTab": 4
+        "currentTab": 2
       }
     ],
     "direction": "horizontal",
