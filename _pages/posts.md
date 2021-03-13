@@ -1,5 +1,5 @@
 ---
 layout: default
 permalink: /posts
-title: Long posts
+title: Posts
 ---
