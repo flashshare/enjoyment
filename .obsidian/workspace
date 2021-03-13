@@ -4,12 +4,12 @@
     "type": "split",
     "children": [
       {
-        "id": "c675048081945877",
+        "id": "79ad558538332e5f",
         "type": "leaf",
         "state": {
           "type": "backlink",
           "state": {
-            "file": "_notes/My career path.md",
+            "file": "index.md",
             "collapseAll": false,
             "extraContext": false,
             "sortOrder": "alphabetical",
@@ -19,12 +19,12 @@
         }
       },
       {
-        "id": "95c683cb0071520d",
+        "id": "61c25ee81e3a41ee",
         "type": "leaf",
         "state": {
           "type": "backlink",
           "state": {
-            "file": "_notes/My career path.md",
+            "file": "index.md",
             "collapseAll": false,
             "extraContext": false,
             "sortOrder": "alphabetical",
@@ -34,35 +34,13 @@
         }
       },
       {
-        "id": "89141dda155aabe8",
-        "type": "leaf",
-        "state": {
-          "type": "markdown",
-          "state": {
-            "file": "templates/Inputs/Person@.md",
-            "mode": "source"
-          }
-        }
-      },
-      {
-        "id": "ef876a6adcba6bdb",
+        "id": "374073047b41cea2",
         "type": "leaf",
         "active": true,
         "state": {
           "type": "markdown",
           "state": {
-            "file": "_notes/My career path.md",
-            "mode": "source"
-          }
-        }
-      },
-      {
-        "id": "b15300ba773ecf54",
-        "type": "leaf",
-        "state": {
-          "type": "markdown",
-          "state": {
-            "file": "templates/Inputs/Book.md",
+            "file": "index.md",
             "mode": "source"
           }
         }
@@ -77,7 +55,7 @@
       {
         "id": "405f1f5341e0a3e1",
         "type": "tabs",
-        "dimension": 74.22680412371135,
+        "dimension": 74.09326424870467,
         "children": [
           {
             "id": "72a88e291ec337ac",
@@ -93,7 +71,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "tag:#👪",
+                "query": "tag:#📝️",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -123,7 +101,7 @@
       {
         "id": "2def770ef91d3f8a",
         "type": "tabs",
-        "dimension": 25.773195876288653,
+        "dimension": 25.906735751295336,
         "children": [
           {
             "id": "ebd3ea8b318dbe9e",
@@ -140,7 +118,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 340
+    "width": 250.01219177246094
   },
   "right": {
     "id": "bef299c3aa1634ff",
@@ -156,7 +134,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "_notes/My career path.md",
+                "file": "index.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -195,50 +173,43 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "_notes/My career path.md"
+                "file": "index.md"
               }
             }
-          }
-        ],
-        "currentTab": 4
-      },
-      {
-        "id": "9ee18a8b51b02d95",
-        "type": "tabs",
-        "children": [
+          },
           {
-            "id": "a9fd0fa6a3c249e0",
+            "id": "1c462d4e9bc92723",
             "type": "leaf",
             "state": {
-              "type": "empty",
+              "type": "online.larslockefeer.obsidian-plugin-todo",
               "state": {}
             }
           },
           {
-            "id": "7ab0477412553f81",
+            "id": "d5b123e8408799b0",
             "type": "leaf",
             "state": {
-              "type": "graph",
+              "type": "advanced-tables-toolbar",
               "state": {}
             }
           }
         ],
-        "currentTab": 1
+        "currentTab": 4
       }
     ],
     "direction": "horizontal",
-    "width": 261
+    "width": 315.60723876953125
   },
   "lastOpenFiles": [
-    "_notes/Untitled.md",
-    "templates/Inputs/Person@.md",
-    "templates/Inputs/Book.md",
-    "templates/Inputs/Thought.md",
-    "templates/Inputs/Youtube.md",
-    "templates/Inputs/Paper.md",
+    "index.md",
+    "notes.md",
+    "_posts/wander_notebook/2020-10-25-the-duality-of-purpose-and-work.md",
+    "_notes/Dark theme adoption as a function of cognitive exhaustion.md",
+    "_notes/Cultural artefacts to improve the resonance and life expectancy of your writing.md",
+    "_notes/Reading with fractalized mental pattern.md",
+    "_notes/How to use Github.md",
     "_notes/How to create new notes for this blog.md",
-    "templates/Inputs/Article.md",
-    "_notes/Create new tag.md",
-    "_notes/All emoji.md"
+    "_notes/Hello world.md",
+    "_notes/Comparison based on accomplishment does not have a baseline.md"
   ]
 }
