@@ -7,9 +7,16 @@ tags: virtue
 - The contemporary view of humility seems to be to pretend as if one knew little instead of realizing it. Here fake it till you make it doesn't seem to work as, the more you pretend to be humble without realizing how little you know---not relatively, but absolutely----the ego grows by holding onto the relative superiority.
 
 Most of the issue of not understanding the fragility of one's epistemic confidence arises due to comparision, but more often than not [[Comparison based on accomplishment does not have a baseline]].
+[[Comparison based on accomplishment does not have a baseline]]
 
 I am thinking how to use this workflow and apply for my thesis writing
+[[My third check with Git plugin]]
+[[Cultural]]
+[[Comparison]]
 
+[[My career path]]
+
+[[Reading with fractalized mental pattern]]
 ## Reference
 
 I may improve this process by add some
