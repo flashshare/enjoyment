@@ -4,12 +4,12 @@
     "type": "split",
     "children": [
       {
-        "id": "79ad558538332e5f",
+        "id": "3e30711b4a70cf2c",
         "type": "leaf",
         "state": {
           "type": "backlink",
           "state": {
-            "file": "index.md",
+            "file": "_notes/My career path.md",
             "collapseAll": false,
             "extraContext": false,
             "sortOrder": "alphabetical",
@@ -19,12 +19,12 @@
         }
       },
       {
-        "id": "61c25ee81e3a41ee",
+        "id": "81ad1a8cca74a053",
         "type": "leaf",
         "state": {
           "type": "backlink",
           "state": {
-            "file": "index.md",
+            "file": "_notes/My career path.md",
             "collapseAll": false,
             "extraContext": false,
             "sortOrder": "alphabetical",
@@ -40,7 +40,7 @@
         "state": {
           "type": "markdown",
           "state": {
-            "file": "index.md",
+            "file": "_notes/My career path.md",
             "mode": "source"
           }
         }
@@ -55,7 +55,7 @@
       {
         "id": "405f1f5341e0a3e1",
         "type": "tabs",
-        "dimension": 74.09326424870467,
+        "dimension": 68.88111888111888,
         "children": [
           {
             "id": "72a88e291ec337ac",
@@ -63,21 +63,6 @@
             "state": {
               "type": "file-explorer",
               "state": {}
-            }
-          },
-          {
-            "id": "135990e020d8dfd3",
-            "type": "leaf",
-            "state": {
-              "type": "search",
-              "state": {
-                "query": "tag:#📝️",
-                "matchingCase": false,
-                "explainSearch": false,
-                "collapseAll": false,
-                "extraContext": false,
-                "sortOrder": "alphabetical"
-              }
             }
           },
           {
@@ -101,7 +86,7 @@
       {
         "id": "2def770ef91d3f8a",
         "type": "tabs",
-        "dimension": 25.906735751295336,
+        "dimension": 31.11888111888112,
         "children": [
           {
             "id": "ebd3ea8b318dbe9e",
@@ -134,58 +119,62 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "index.md",
+                "file": "_notes/My career path.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
-                "backlinkCollapsed": true,
+                "backlinkCollapsed": false,
                 "unlinkedCollapsed": true
               }
             }
           },
+          {
+            "id": "135990e020d8dfd3",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "tag:#📥️/📚️",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": "ab748722ab96b414",
+        "type": "tabs",
+        "children": [
           {
             "id": "aad22f5cfef6f17e",
             "type": "leaf",
             "state": {
               "type": "outline",
               "state": {
-                "file": "index.md"
+                "file": "_notes/My career path.md"
               }
             }
-          },
-          {
-            "id": "1c462d4e9bc92723",
-            "type": "leaf",
-            "state": {
-              "type": "online.larslockefeer.obsidian-plugin-todo",
-              "state": {}
-            }
-          },
-          {
-            "id": "d5b123e8408799b0",
-            "type": "leaf",
-            "state": {
-              "type": "advanced-tables-toolbar",
-              "state": {}
-            }
           }
-        ],
-        "currentTab": 2
+        ]
       }
     ],
     "direction": "horizontal",
-    "width": 315.60723876953125
+    "width": 221
   },
   "lastOpenFiles": [
+    "_notes/My career path.md",
+    "_notes/Humility is the knowing of the epistemic gap.md",
+    "_notes/Epistemic humility to avoid unintended ontological dust while writing.md",
+    "_notes/How to use Github.md",
+    "_notes/How to create new notes for this blog.md",
+    "templates/Inputs/Person@.md",
     "index.md",
     "notes.md",
     "_posts/wander_notebook/2020-10-25-the-duality-of-purpose-and-work.md",
-    "_notes/Dark theme adoption as a function of cognitive exhaustion.md",
-    "_notes/Cultural artefacts to improve the resonance and life expectancy of your writing.md",
-    "_notes/Reading with fractalized mental pattern.md",
-    "_notes/How to use Github.md",
-    "_notes/How to create new notes for this blog.md",
-    "_notes/Hello world.md",
-    "_notes/Comparison based on accomplishment does not have a baseline.md"
+    "_notes/Dark theme adoption as a function of cognitive exhaustion.md"
   ]
 }
