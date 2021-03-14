@@ -5,9 +5,8 @@ class BidirectionalLinksGenerator < Jekyll::Generator
     graph_edges = []
 
     all_notes = site.collections['notes'].docs
-    all_posts = site.collections['posts'].docs
 
-    all_docs = all_notes + all_posts
+    all_docs = all_notes
 
     # Convert all Wiki/Roam-style double-bracket link syntax to plain HTML
     # anchor tag elements (<a>) with "internal-link" CSS class
@@ -19,12 +18,6 @@ class BidirectionalLinksGenerator < Jekyll::Generator
           "<a class='internal-link' href='#{note_potentially_linked_to.url}'>#{note_potentially_linked_to.data['title']}</a>"
         )
 
-        # Replace double-bracketed links using note filename
-        title_from_filename = File.basename(note_potentially_linked_to.basename, File.extname(note_potentially_linked_to.basename)).gsub('_', ' ').gsub('-', ' ').capitalize
-        current_note.content = current_note.content.gsub(
-          /\[\[#{title_from_filename}\]\]/i,
-          "<a class='internal-link' href='#{note_potentially_linked_to.url}'>#{title_from_filename}</a>"
-        )
       end
 
       # At this point, all remaining double-bracket-wrapped words are
