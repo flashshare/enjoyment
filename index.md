@@ -6,6 +6,10 @@ permalink: /
 ## About {{site.title}}
 
 
+
+[**A Blog:**](/posts)
+   - Finally, this Jekyll project also allows for blog posts like any other, which could be viewed as the final step for process of smart note-taking.
+
 [**My Brain Notes Network:**](/notes)
 
 <div class="grid-element">
@@ -15,8 +19,3 @@ permalink: /
     {% include notes_graph.html %}
 </div>
 
-[**Daily Progress Journal:**](/journals)
-   - A more simple section for daily public writing that could be built into more complex and well-connected notes.
-
-[**A Blog:**](/posts)
-   - Finally, this Jekyll project also allows for blog posts like any other, which could be viewed as the final step for process of smart note-taking.
