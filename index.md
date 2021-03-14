@@ -12,10 +12,8 @@ permalink: /
 
 [**My Brain Notes Network:**](/notes)
 
-<div class="grid-element">
-    <p>
-	    These <a class="internal-link" href="/notes">{{ notes.size }} notes</a> are an exploration in digital gardening.
-    </p>
-    {% include notes_graph.html %}
+<div style="width: 100px; border: 1px solid blue">
+<div style="background:yellow; margin: 10px; border: 1px solid blue">
+  {% include notes_graph.html %}
 </div>
-
+</div>
