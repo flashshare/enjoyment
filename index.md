@@ -23,3 +23,10 @@ permalink: /
 
 
 
+<div class="col-sm-6 mt-sm-0 my-3">
+    <h2 class="text-uppercase text-center">About {{ site.title }}</h2>
+    <p class="text-justify text-white mx-3"><small>{{ site.footer_description }}</small></p>
+</div>
+<div class="col-sm-3 col-6 mb-sm-0 mb-1">
+    {% include notes_graph.html %}
+</div>
