@@ -1,68 +1,34 @@
-<style>
-  .links line {
-    stroke: #ccc;
-    opacity: 0.5;
-  }
-
-  .nodes circle {
-    cursor: pointer;
-    fill: #8b88e6;
-    transition: all 0.15s ease-out;
-  }
-
-  .text text {
-    cursor: pointer;
-    fill: #333;
-    text-shadow: -1px -1px 0 #fafafabb, 1px -1px 0 #fafafabb, -1px 1px 0 #fafafabb, 1px 1px 0 #fafafabb;
-  }
-
-  .nodes [active],
-  .text [active] {
-    cursor: pointer;
-    fill: black;
-  }
-
-  .inactive {
-    opacity: 0.1;
-    transition: all 0.15s ease-out;
-  }
-
-  #graph-wrapper {
-    background: #fcfcfc;
-    border-radius: 4px;
-    height: auto;
-  }
-</style>
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.16.0/d3.min.js"
   integrity="sha512-FHsFVKQ/T1KWJDGSbrUhTJyS1ph3eRrxI228ND0EGaEp6v4a/vGwPWd3Dtd/+9cI7ccofZvl/wulICEurHN1pg=="
   crossorigin="anonymous"></script>
 
+<div id="floating-buttons">
+  <div><i class="material-icons">insights</i></div>
+  <div><i class="material-icons">close</i></div>
+</div>
+
+<div id="modal">
 <div id="graph-wrapper">
   <script>
-    const MINIMAL_NODE_SIZE = 8;
+    const MINIMAL_NODE_SIZE = 5;
     const MAX_NODE_SIZE = 12;
     const ACTIVE_RADIUS_FACTOR = 1.5;
     const STROKE = 1;
-    const FONT_SIZE = 16;
-    const TICKS = 200;
+    const FONT_SIZE = 14;
+    const TICKS = 300;
     const FONT_BASELINE = 40;
     const MAX_LABEL_LENGTH = 50;
-
-    const graphData = {% include notes_graph.json %}
+    const graphData =  {% include notes_graph.json %};
     let nodesData = graphData.nodes;
     let linksData = graphData.edges;
 
     const nodeSize = {};
-
+    
     const updateNodeSize = () => {
       nodesData.forEach((el) => {
-        let weight =
-          3 *
-          Math.sqrt(
-            linksData.filter((l) => l.source === el.id || l.target === el.id)
-              .length + 1
-          );
+        // Calculate the flux and set the node size
+        let weight = 3 * Math.sqrt(linksData.filter((l) => l.source.id === el.id || l.target.id === el.id).length + 1);
+        
         if (weight < MINIMAL_NODE_SIZE) {
           weight = MINIMAL_NODE_SIZE;
         } else if (weight > MAX_NODE_SIZE) {
@@ -120,85 +86,48 @@
       link.attr("stroke-width", STROKE);
     };
 
-    const sameNodes = (previous, next) => {
-      if (next.length !== previous.length) {
-        return false;
-      }
-
-      const map = new Map();
-      for (const node of previous) {
-        map.set(node.id, node.label);
-      }
-
-      for (const node of next) {
-        const found = map.get(node.id);
-        if (!found || found !== node.title) {
-          return false;
-        }
-      }
-
-      return true;
-    };
-
-    const sameEdges = (previous, next) => {
-      if (next.length !== previous.length) {
-        return false;
-      }
-
-      const set = new Set();
-      for (const edge of previous) {
-        set.add(`${edge.source.id}-${edge.target.id}`);
-      }
-
-      for (const edge of next) {
-        if (!set.has(`${edge.source}-${edge.target}`)) {
-          return false;
-        }
-      }
-
-      return true;
-    };
-
     const graphWrapper = document.getElementById('graph-wrapper')
     const element = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-    element.setAttribute("width", graphWrapper.getBoundingClientRect().width);
-    element.setAttribute("height", window.innerHeight * 0.8);
     graphWrapper.appendChild(element);
+    element.setAttribute("width", graphWrapper.clientWidth);
+    element.setAttribute("height", graphWrapper.clientHeight);
 
     const reportWindowSize = () => {
-      element.setAttribute("width", window.innerWidth);
-      element.setAttribute("height", window.innerHeight);
+      element.setAttribute("width", graphWrapper.clientWidth);
+      element.setAttribute("height", graphWrapper.clientHeight);
     };
 
-    window.onresize = reportWindowSize;
+    window.addEventListener('resize', reportWindowSize);
 
     const svg = d3.select("svg");
     const width = Number(svg.attr("width"));
     const height = Number(svg.attr("height"));
     let zoomLevel = 1;
+    let currentX = 0, currentY = 0;
 
     const simulation = d3
       .forceSimulation(nodesData)
-      .force("forceX", d3.forceX().x(width / 2))
-      .force("forceY", d3.forceY().y(height / 2))
-      .force("charge", d3.forceManyBody())
+      // .force("forceX", d3.forceX().x(width / 2))
+      // .force("forceY", d3.forceY().y(height / 2))
+      .force("charge", d3.forceManyBody().strength(-500))
       .force(
         "link",
         d3
           .forceLink(linksData)
           .id((d) => d.id)
-          .distance(70)
+          .distance(80)
       )
       .force("center", d3.forceCenter(width / 2, height / 2))
-      .force("collision", d3.forceCollide().radius(80))
+      // .force("collision", d3.forceCollide().radius(50))
       .stop();
 
-    const g = svg.append("g");
+    const g = svg.append("g").attr("transform-origin", "center");
     let link = g.append("g").attr("class", "links").selectAll(".link");
-    let node = g.append("g").attr("class", "nodes").selectAll(".node");
     let text = g.append("g").attr("class", "text").selectAll(".text");
+    let node = g.append("g").attr("class", "nodes").selectAll(".node");
 
-    const resize = () => {
+
+    const zoomOrDrag = () => {
       if (d3.event) {
         const scale = d3.event.transform;
         zoomLevel = scale.k;
@@ -210,32 +139,34 @@
       const font = Math.max(Math.round(zoomOrKeep(FONT_SIZE)), 1);
 
       text.attr("font-size", (d) => font);
-      text.attr("y", (d) => d.y - zoomOrKeep(FONT_BASELINE) + 8);
+      text.attr("y", (d) => d.y + currentY - zoomOrKeep(FONT_BASELINE) + 8);
       link.attr("stroke-width", zoomOrKeep(STROKE));
-      node.attr("r", (d) => {
-        return zoomOrKeep(nodeSize[d.id]);
-      });
-      svg
-        .selectAll("circle")
+      node.attr("r", (d) => zoomOrKeep(nodeSize[d.id]));
+      svg.selectAll("circle")
         .filter((_d, i, nodes) => d3.select(nodes[i]).attr("active"))
         .attr("r", (d) => zoomOrKeep(ACTIVE_RADIUS_FACTOR * nodeSize[d.id]));
 
-      document.getElementById("zoom").innerHTML = zoomLevel.toFixed(2);
+      // document.getElementById("zoom").innerHTML = zoomLevel.toFixed(2);
     };
 
-    const ticked = () => {
-      node.attr("cx", (d) => d.x).attr("cy", (d) => d.y);
+    const renderSVG = () => {
+      d3.select(".nodes [active]").each((d) => {
+        currentX = width / 2 - d.x;
+        currentY = height / 2 - d.y;
+      });
+      node.attr("cx", (d) => d.x + currentX)
+        .attr("cy", (d) => d.y + currentY);
       text
-        .attr("x", (d) => d.x)
-        .attr("y", (d) => d.y - (FONT_BASELINE - nodeSize[d.id]) / zoomLevel);
+        .attr("x", (d) => d.x + currentX)
+        .attr("y", (d) => d.y + currentY - (FONT_BASELINE - nodeSize[d.id]) / zoomLevel)
       link
-        .attr("x1", (d) => d.source.x)
-        .attr("y1", (d) => d.source.y)
-        .attr("x2", (d) => d.target.x)
-        .attr("y2", (d) => d.target.y);
+        .attr("x1", (d) => d.source.x + currentX)
+        .attr("y1", (d) => d.source.y + currentY)
+        .attr("x2", (d) => d.target.x + currentX)
+        .attr("y2", (d) => d.target.y + currentY);
     };
-
-    const restart = () => {
+    
+    const runSimulation = () => {
       updateNodeSize();
       node = node.data(nodesData, (d) => d.id);
       node.exit().remove();
@@ -253,7 +184,7 @@
       link = link.data(linksData, (d) => `${d.source.id}-${d.target.id}`);
       link.exit().remove();
       link = link.enter().append("line").attr("stroke-width", STROKE).merge(link);
-
+      
       text = text.data(nodesData, (d) => d.label);
       text.exit().remove();
       text = text
@@ -263,9 +194,9 @@
         .attr("font-size", `${FONT_SIZE}px`)
         .attr("text-anchor", "middle")
         .attr("alignment-baseline", "central")
-        .on("click", onClick)
-        .on("mouseover", onMouseover)
-        .on("mouseout", onMouseout)
+        // .on("click", onClick)
+        // .on("mouseover", onMouseover)
+        // .on("mouseout", onMouseout)
         .merge(text);
 
       node.attr("active", (d) => isCurrentPath(d.path) ? true : null);
@@ -280,13 +211,12 @@
         simulation.tick();
       }
 
-      ticked();
+      renderSVG();
     };
 
-    const zoomHandler = d3.zoom().scaleExtent([0.2, 3]).on("zoom", resize);
-
+    const zoomHandler = d3.zoom().scaleExtent([0.5, 1]).on("zoom", zoomOrDrag);
     zoomHandler(svg);
-    restart();
+    runSimulation()
 
     function isCurrentPath(notePath) {
       return window.location.pathname.includes(notePath)
@@ -296,5 +226,25 @@
       if (str.length <= maxLen) return str;
       return str.substr(0, str.lastIndexOf(separator, maxLen)) + '...';
     }
+    
+
+  let showGraph = false;
+  const modal = document.getElementById('modal');
+  const graphButton = document.getElementById('floating-buttons');
+  graphButton.addEventListener('click', () => {
+    showGraph = !showGraph;
+    modal.classList.toggle('active', showGraph);
+    graphButton.classList.toggle('active', showGraph);
+  });
+  document.addEventListener('click', (event) => {
+    const inModal = event.composedPath().includes(graphWrapper)
+    const inGraphButton = event.composedPath().includes(graphButton)
+    if (!inModal && !inGraphButton) {
+      showGraph = false;
+      modal.classList.toggle('active', showGraph);
+      graphButton.classList.toggle('active', showGraph);
+    }
+  })
   </script>
+</div>
 </div>

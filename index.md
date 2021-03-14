@@ -12,6 +12,8 @@ permalink: /
 
 [**My Brain Notes Network:**](/notes)
 
-<div style="background:blue; margin: 10px; border: 1px solid blue">
-  {% include notes_graph.html %}
-</div>
+<style>
+  .wrapper {
+    max-width: 33em;
+  }
+</style>
