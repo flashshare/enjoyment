@@ -4,7 +4,7 @@ tags: jekyll theme 📝️/🌱
 comments: true
 ---
 
-#### [[How to use Github]]
+# [[How to use Github]]
 1. Connect local folder to github 
 ```
 git remote add origin https://github.com/flashshare/enjoyment.git
