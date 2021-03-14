@@ -12,8 +12,24 @@ permalink: /
 
 [**My Brain Notes Network:**](/notes)
 
-<style>
-  .wrapper {
-    max-width: 33em;
+<script>
+  const graphDataHome = {% include notes_graph.json %}
+  let sortedByNew = graphDataHome.nodes.sort((a,b) => parseJekyllDateToMiliseconds(a.last_modified) < parseJekyllDateToMiliseconds(b.last_modified))
+  const llist = document.getElementById('latest-notes');
+  for (let i=0; i< sortedByNew.length; i++) {
+    const li = document.createElement('li');
+    const a = document.createElement('a');
+    a.classList.add('internal-link')
+    a.href = sortedByNew[i].path;
+    a.innerText = sortedByNew[i].label;
+    li.appendChild(a);
+    llist.appendChild(li)
+  } 
+  function dayToMiliseconds(days) {
+    return days * 24 * 60 * 60 * 1000;
   }
-</style>
+  
+  function parseJekyllDateToMiliseconds(string) {
+    return Date.parse(string.replaceAll(/-/g, ' '))
+  }
+</script>
