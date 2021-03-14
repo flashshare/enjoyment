@@ -113,3 +113,5 @@ tmp
 .DS_Store
 .obsidian/config
 .obsidian/workspace
+.obsidian/plugins/mrj-backlinks-in-document/data.json
+.obsidian/workspace
