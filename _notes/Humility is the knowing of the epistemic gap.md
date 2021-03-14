@@ -10,8 +10,11 @@ Most of the issue of not understanding the fragility of one's epistemic confiden
 [[Comparison based on accomplishment does not have a baseline]]
 
 I am thinking how to use this workflow and apply for my thesis writing
+
 [[My third check with Git plugin]]
+
 [[Cultural]]
+
 [[Comparison]]
 
 [[My career path]]
