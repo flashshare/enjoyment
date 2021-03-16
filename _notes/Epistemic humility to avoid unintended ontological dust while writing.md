@@ -1,5 +1,5 @@
 ---
-tags: writing
+tags: 
 curated: true
 ---
 

@@ -18,22 +18,34 @@ var DEFAULT_DAILY_NOTE_FORMAT = "YYYY-MM-DD";
 var DEFAULT_WEEKLY_NOTE_FORMAT = "gggg-[W]ww";
 var DEFAULT_MONTHLY_NOTE_FORMAT = "YYYY-MM";
 
+function shouldUsePeriodicNotesSettings(periodicity) {
+    var _a, _b;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    var periodicNotes = window.app.plugins.getPlugin("periodic-notes");
+    return periodicNotes && ((_b = (_a = periodicNotes.settings) === null || _a === void 0 ? void 0 : _a[periodicity]) === null || _b === void 0 ? void 0 : _b.enabled);
+}
 /**
  * Read the user settings for the `daily-notes` plugin
  * to keep behavior of creating a new note in-sync.
  */
 function getDailyNoteSettings() {
-    var _a, _b, _c, _d, _e, _f;
+    var _a, _b, _c, _d;
     try {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        var _g = window.app, internalPlugins = _g.internalPlugins, plugins = _g.plugins;
-        var dailyNoteSettings = (_b = (_a = internalPlugins.getPluginById("daily-notes")) === null || _a === void 0 ? void 0 : _a.instance) === null || _b === void 0 ? void 0 : _b.options;
-        var periodicNotesSettings = (_d = (_c = plugins.getPlugin("periodic-notes")) === null || _c === void 0 ? void 0 : _c.settings) === null || _d === void 0 ? void 0 : _d.daily;
-        var settings = periodicNotesSettings || dailyNoteSettings || {};
+        var _e = window.app, internalPlugins = _e.internalPlugins, plugins = _e.plugins;
+        if (shouldUsePeriodicNotesSettings("daily")) {
+            var _f = ((_b = (_a = plugins.getPlugin("periodic-notes")) === null || _a === void 0 ? void 0 : _a.settings) === null || _b === void 0 ? void 0 : _b.daily) || {}, format_1 = _f.format, folder_1 = _f.folder, template_1 = _f.template;
+            return {
+                format: format_1 || DEFAULT_DAILY_NOTE_FORMAT,
+                folder: (folder_1 === null || folder_1 === void 0 ? void 0 : folder_1.trim()) || "",
+                template: (template_1 === null || template_1 === void 0 ? void 0 : template_1.trim()) || "",
+            };
+        }
+        var _g = ((_d = (_c = internalPlugins.getPluginById("daily-notes")) === null || _c === void 0 ? void 0 : _c.instance) === null || _d === void 0 ? void 0 : _d.options) || {}, folder = _g.folder, format = _g.format, template = _g.template;
         return {
-            format: settings.format || DEFAULT_DAILY_NOTE_FORMAT,
-            folder: ((_e = settings.folder) === null || _e === void 0 ? void 0 : _e.trim()) || "",
-            template: ((_f = settings.template) === null || _f === void 0 ? void 0 : _f.trim()) || "",
+            format: format || DEFAULT_DAILY_NOTE_FORMAT,
+            folder: (folder === null || folder === void 0 ? void 0 : folder.trim()) || "",
+            template: (template === null || template === void 0 ? void 0 : template.trim()) || "",
         };
     }
     catch (err) {
@@ -51,7 +63,7 @@ function getWeeklyNoteSettings() {
         var pluginManager = window.app.plugins;
         var calendarSettings = (_a = pluginManager.getPlugin("calendar")) === null || _a === void 0 ? void 0 : _a.options;
         var periodicNotesSettings = (_c = (_b = pluginManager.getPlugin("periodic-notes")) === null || _b === void 0 ? void 0 : _b.settings) === null || _c === void 0 ? void 0 : _c.weekly;
-        if (periodicNotesSettings) {
+        if (shouldUsePeriodicNotesSettings("weekly")) {
             return {
                 format: periodicNotesSettings.format || DEFAULT_WEEKLY_NOTE_FORMAT,
                 folder: ((_d = periodicNotesSettings.folder) === null || _d === void 0 ? void 0 : _d.trim()) || "",
@@ -75,10 +87,12 @@ function getWeeklyNoteSettings() {
  */
 function getMonthlyNoteSettings() {
     var _a, _b, _c, _d;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    var pluginManager = window.app.plugins;
     try {
-        var settings = 
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        ((_b = (_a = window.app.plugins.getPlugin("periodic-notes")) === null || _a === void 0 ? void 0 : _a.settings) === null || _b === void 0 ? void 0 : _b.monthly) || {};
+        var settings = (shouldUsePeriodicNotesSettings("monthly") &&
+            ((_b = (_a = pluginManager.getPlugin("periodic-notes")) === null || _a === void 0 ? void 0 : _a.settings) === null || _b === void 0 ? void 0 : _b.monthly)) ||
+            {};
         return {
             format: settings.format || DEFAULT_MONTHLY_NOTE_FORMAT,
             folder: ((_c = settings.folder) === null || _c === void 0 ? void 0 : _c.trim()) || "",
@@ -106,15 +120,17 @@ PERFORMANCE OF THIS SOFTWARE.
 ***************************************************************************** */
 /* global Reflect, Promise */
 
-var extendStatics = function(d, b) {
-    extendStatics = Object.setPrototypeOf ||
+var extendStatics$1 = function(d, b) {
+    extendStatics$1 = Object.setPrototypeOf ||
         ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
         function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
-    return extendStatics(d, b);
+    return extendStatics$1(d, b);
 };
 
-function __extends(d, b) {
-    extendStatics(d, b);
+function __extends$1(d, b) {
+    if (typeof b !== "function" && b !== null)
+        throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+    extendStatics$1(d, b);
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 }
@@ -161,7 +177,7 @@ function __generator(thisArg, body) {
  * dateUID is a way of weekly identifying daily/weekly/monthly notes.
  * They are prefixed with the granularity to avoid ambiguity.
  */
-function getDateUID(date, granularity) {
+function getDateUID$1(date, granularity) {
     if (granularity === void 0) { granularity = "day"; }
     var ts = date.clone().startOf(granularity).format();
     return granularity + "-" + ts;
@@ -177,7 +193,8 @@ function removeEscapedCharacters(format) {
 function isFormatAmbiguous(format, granularity) {
     if (granularity === "week") {
         var cleanFormat = removeEscapedCharacters(format);
-        return /w/i.test(cleanFormat) && /M{1,4}/.test(cleanFormat);
+        return (/w{1,2}/i.test(cleanFormat) &&
+            (/M{1,4}/.test(cleanFormat) || /D{1,4}/.test(cleanFormat)));
     }
     return false;
 }
@@ -195,10 +212,10 @@ function getDateFromFile(file, granularity) {
     if (isFormatAmbiguous(format, granularity)) {
         if (granularity === "week") {
             var cleanFormat = removeEscapedCharacters(format);
-            if (/w/i.test(cleanFormat)) {
+            if (/w{1,2}/i.test(cleanFormat)) {
                 return window.moment(file.basename, 
-                // If format contains week, remove month formatting
-                format.replace(/M{1,4}/g, ""), false);
+                // If format contains week, remove day & month formatting
+                format.replace(/M{1,4}/g, "").replace(/D{1,4}/g, ""), false);
             }
         }
     }
@@ -279,7 +296,7 @@ function getTemplateContents(template) {
 }
 
 var DailyNotesFolderMissingError = /** @class */ (function (_super) {
-    __extends(DailyNotesFolderMissingError, _super);
+    __extends$1(DailyNotesFolderMissingError, _super);
     function DailyNotesFolderMissingError() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
@@ -314,7 +331,14 @@ function createDailyNote(date) {
                     _b.trys.push([3, 5, , 6]);
                     return [4 /*yield*/, vault.create(normalizedPath, templateContents
                             .replace(/{{\s*(date|time)\s*:(.*?)}}/gi, function (_, _timeOrDate, momentFormat) {
-                            return date.format(momentFormat.trim());
+                            var now = moment();
+                            return date
+                                .set({
+                                hour: now.get("hour"),
+                                minute: now.get("minute"),
+                                second: now.get("second"),
+                            })
+                                .format(momentFormat.trim());
                         })
                             .replace(/{{\s*date\s*}}/gi, filename)
                             .replace(/{{\s*time\s*}}/gi, moment().format("HH:mm"))
@@ -334,7 +358,7 @@ function createDailyNote(date) {
 }
 function getDailyNote(date, dailyNotes) {
     var _a;
-    return (_a = dailyNotes[getDateUID(date, "day")]) !== null && _a !== void 0 ? _a : null;
+    return (_a = dailyNotes[getDateUID$1(date, "day")]) !== null && _a !== void 0 ? _a : null;
 }
 function getAllDailyNotes() {
     /**
@@ -351,7 +375,7 @@ function getAllDailyNotes() {
         if (note instanceof obsidian__default['default'].TFile) {
             var date = getDateFromFile(note, "day");
             if (date) {
-                var dateString = getDateUID(date, "day");
+                var dateString = getDateUID$1(date, "day");
                 dailyNotes[dateString] = note;
             }
         }
@@ -360,13 +384,13 @@ function getAllDailyNotes() {
 }
 
 var WeeklyNotesFolderMissingError = /** @class */ (function (_super) {
-    __extends(WeeklyNotesFolderMissingError, _super);
+    __extends$1(WeeklyNotesFolderMissingError, _super);
     function WeeklyNotesFolderMissingError() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     return WeeklyNotesFolderMissingError;
 }(Error));
-function getDaysOfWeek() {
+function getDaysOfWeek$1() {
     var moment = window.moment;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     var weekStart = moment.localeData()._week.dow;
@@ -386,7 +410,7 @@ function getDaysOfWeek() {
     return daysOfWeek;
 }
 function getDayOfWeekNumericalValue(dayOfWeekName) {
-    return getDaysOfWeek().indexOf(dayOfWeekName.toLowerCase());
+    return getDaysOfWeek$1().indexOf(dayOfWeekName.toLowerCase());
 }
 function createWeeklyNote(date) {
     return __awaiter(this, void 0, void 0, function () {
@@ -408,9 +432,17 @@ function createWeeklyNote(date) {
                     _b.trys.push([3, 5, , 6]);
                     return [4 /*yield*/, vault.create(normalizedPath, templateContents
                             .replace(/{{\s*(date|time)\s*:(.*?)}}/gi, function (_, _timeOrDate, momentFormat) {
-                            return date.format(momentFormat.trim());
+                            var now = window.moment();
+                            return date
+                                .set({
+                                hour: now.get("hour"),
+                                minute: now.get("minute"),
+                                second: now.get("second"),
+                            })
+                                .format(momentFormat.trim());
                         })
                             .replace(/{{\s*title\s*}}/gi, filename)
+                            .replace(/{{\s*time\s*}}/gi, window.moment().format("HH:mm"))
                             .replace(/{{\s*(sunday|monday|tuesday|wednesday|thursday|friday|saturday)\s*:(.*?)}}/gi, function (_, dayOfWeek, momentFormat) {
                             var day = getDayOfWeekNumericalValue(dayOfWeek);
                             return date.weekday(day).format(momentFormat.trim());
@@ -430,7 +462,7 @@ function createWeeklyNote(date) {
 }
 function getWeeklyNote(date, weeklyNotes) {
     var _a;
-    return (_a = weeklyNotes[getDateUID(date, "week")]) !== null && _a !== void 0 ? _a : null;
+    return (_a = weeklyNotes[getDateUID$1(date, "week")]) !== null && _a !== void 0 ? _a : null;
 }
 function getAllWeeklyNotes() {
     var vault = window.app.vault;
@@ -444,7 +476,7 @@ function getAllWeeklyNotes() {
         if (note instanceof obsidian__default['default'].TFile) {
             var date = getDateFromFile(note, "week");
             if (date) {
-                var dateString = getDateUID(date, "week");
+                var dateString = getDateUID$1(date, "week");
                 weeklyNotes[dateString] = note;
             }
         }
@@ -453,7 +485,7 @@ function getAllWeeklyNotes() {
 }
 
 /** @class */ ((function (_super) {
-    __extends(MonthlyNotesFolderMissingError, _super);
+    __extends$1(MonthlyNotesFolderMissingError, _super);
     function MonthlyNotesFolderMissingError() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
@@ -480,35 +512,35 @@ var getAllWeeklyNotes_1 = getAllWeeklyNotes;
 var getDailyNote_1 = getDailyNote;
 var getDailyNoteSettings_1 = getDailyNoteSettings;
 var getDateFromFile_1 = getDateFromFile;
-var getDateUID_1 = getDateUID;
+var getDateUID_1$1 = getDateUID$1;
 var getWeeklyNote_1 = getWeeklyNote;
 var getWeeklyNoteSettings_1 = getWeeklyNoteSettings;
 
-function noop() { }
-function run(fn) {
+function noop$1() { }
+function run$1(fn) {
     return fn();
 }
-function blank_object() {
+function blank_object$1() {
     return Object.create(null);
 }
-function run_all(fns) {
-    fns.forEach(run);
+function run_all$1(fns) {
+    fns.forEach(run$1);
 }
-function is_function(thing) {
+function is_function$1(thing) {
     return typeof thing === 'function';
 }
-function safe_not_equal(a, b) {
+function safe_not_equal$1(a, b) {
     return a != a ? b == b : a !== b || ((a && typeof a === 'object') || typeof a === 'function');
 }
-function not_equal(a, b) {
+function not_equal$1(a, b) {
     return a != a ? b == b : a !== b;
 }
-function is_empty(obj) {
+function is_empty$1(obj) {
     return Object.keys(obj).length === 0;
 }
 function subscribe(store, ...callbacks) {
     if (store == null) {
-        return noop;
+        return noop$1;
     }
     const unsub = store.subscribe(...callbacks);
     return unsub.unsubscribe ? () => unsub.unsubscribe() : unsub;
@@ -521,107 +553,107 @@ function get_store_value(store) {
 function component_subscribe(component, store, callback) {
     component.$$.on_destroy.push(subscribe(store, callback));
 }
-function detach(node) {
+function detach$1(node) {
     node.parentNode.removeChild(node);
 }
-function children(element) {
+function children$1(element) {
     return Array.from(element.childNodes);
 }
 
-let current_component;
-function set_current_component(component) {
-    current_component = component;
+let current_component$1;
+function set_current_component$1(component) {
+    current_component$1 = component;
 }
-function get_current_component() {
-    if (!current_component)
+function get_current_component$1() {
+    if (!current_component$1)
         throw new Error('Function called outside component initialization');
-    return current_component;
+    return current_component$1;
 }
 function onDestroy(fn) {
-    get_current_component().$$.on_destroy.push(fn);
+    get_current_component$1().$$.on_destroy.push(fn);
 }
 
-const dirty_components = [];
-const binding_callbacks = [];
-const render_callbacks = [];
-const flush_callbacks = [];
-const resolved_promise = Promise.resolve();
-let update_scheduled = false;
-function schedule_update() {
-    if (!update_scheduled) {
-        update_scheduled = true;
-        resolved_promise.then(flush);
+const dirty_components$1 = [];
+const binding_callbacks$1 = [];
+const render_callbacks$1 = [];
+const flush_callbacks$1 = [];
+const resolved_promise$1 = Promise.resolve();
+let update_scheduled$1 = false;
+function schedule_update$1() {
+    if (!update_scheduled$1) {
+        update_scheduled$1 = true;
+        resolved_promise$1.then(flush$1);
     }
 }
-function add_render_callback(fn) {
-    render_callbacks.push(fn);
+function add_render_callback$1(fn) {
+    render_callbacks$1.push(fn);
 }
 function add_flush_callback(fn) {
-    flush_callbacks.push(fn);
+    flush_callbacks$1.push(fn);
 }
-let flushing = false;
-const seen_callbacks = new Set();
-function flush() {
-    if (flushing)
+let flushing$1 = false;
+const seen_callbacks$1 = new Set();
+function flush$1() {
+    if (flushing$1)
         return;
-    flushing = true;
+    flushing$1 = true;
     do {
         // first, call beforeUpdate functions
         // and update components
-        for (let i = 0; i < dirty_components.length; i += 1) {
-            const component = dirty_components[i];
-            set_current_component(component);
-            update(component.$$);
+        for (let i = 0; i < dirty_components$1.length; i += 1) {
+            const component = dirty_components$1[i];
+            set_current_component$1(component);
+            update$1(component.$$);
         }
-        set_current_component(null);
-        dirty_components.length = 0;
-        while (binding_callbacks.length)
-            binding_callbacks.pop()();
+        set_current_component$1(null);
+        dirty_components$1.length = 0;
+        while (binding_callbacks$1.length)
+            binding_callbacks$1.pop()();
         // then, once components are updated, call
         // afterUpdate functions. This may cause
         // subsequent updates...
-        for (let i = 0; i < render_callbacks.length; i += 1) {
-            const callback = render_callbacks[i];
-            if (!seen_callbacks.has(callback)) {
+        for (let i = 0; i < render_callbacks$1.length; i += 1) {
+            const callback = render_callbacks$1[i];
+            if (!seen_callbacks$1.has(callback)) {
                 // ...so guard against infinite loops
-                seen_callbacks.add(callback);
+                seen_callbacks$1.add(callback);
                 callback();
             }
         }
-        render_callbacks.length = 0;
-    } while (dirty_components.length);
-    while (flush_callbacks.length) {
-        flush_callbacks.pop()();
+        render_callbacks$1.length = 0;
+    } while (dirty_components$1.length);
+    while (flush_callbacks$1.length) {
+        flush_callbacks$1.pop()();
     }
-    update_scheduled = false;
-    flushing = false;
-    seen_callbacks.clear();
+    update_scheduled$1 = false;
+    flushing$1 = false;
+    seen_callbacks$1.clear();
 }
-function update($$) {
+function update$1($$) {
     if ($$.fragment !== null) {
         $$.update();
-        run_all($$.before_update);
+        run_all$1($$.before_update);
         const dirty = $$.dirty;
         $$.dirty = [-1];
         $$.fragment && $$.fragment.p($$.ctx, dirty);
-        $$.after_update.forEach(add_render_callback);
+        $$.after_update.forEach(add_render_callback$1);
     }
 }
-const outroing = new Set();
-let outros;
-function transition_in(block, local) {
+const outroing$1 = new Set();
+let outros$1;
+function transition_in$1(block, local) {
     if (block && block.i) {
-        outroing.delete(block);
+        outroing$1.delete(block);
         block.i(local);
     }
 }
-function transition_out(block, local, detach, callback) {
+function transition_out$1(block, local, detach, callback) {
     if (block && block.o) {
-        if (outroing.has(block))
+        if (outroing$1.has(block))
             return;
-        outroing.add(block);
-        outros.c.push(() => {
-            outroing.delete(block);
+        outroing$1.add(block);
+        outros$1.c.push(() => {
+            outroing$1.delete(block);
             if (callback) {
                 if (detach)
                     block.d(1);
@@ -639,31 +671,33 @@ function bind(component, name, callback) {
         callback(component.$$.ctx[index]);
     }
 }
-function create_component(block) {
+function create_component$1(block) {
     block && block.c();
 }
-function mount_component(component, target, anchor) {
+function mount_component$1(component, target, anchor, customElement) {
     const { fragment, on_mount, on_destroy, after_update } = component.$$;
     fragment && fragment.m(target, anchor);
-    // onMount happens before the initial afterUpdate
-    add_render_callback(() => {
-        const new_on_destroy = on_mount.map(run).filter(is_function);
-        if (on_destroy) {
-            on_destroy.push(...new_on_destroy);
-        }
-        else {
-            // Edge case - component was destroyed immediately,
-            // most likely as a result of a binding initialising
-            run_all(new_on_destroy);
-        }
-        component.$$.on_mount = [];
-    });
-    after_update.forEach(add_render_callback);
+    if (!customElement) {
+        // onMount happens before the initial afterUpdate
+        add_render_callback$1(() => {
+            const new_on_destroy = on_mount.map(run$1).filter(is_function$1);
+            if (on_destroy) {
+                on_destroy.push(...new_on_destroy);
+            }
+            else {
+                // Edge case - component was destroyed immediately,
+                // most likely as a result of a binding initialising
+                run_all$1(new_on_destroy);
+            }
+            component.$$.on_mount = [];
+        });
+    }
+    after_update.forEach(add_render_callback$1);
 }
-function destroy_component(component, detaching) {
+function destroy_component$1(component, detaching) {
     const $$ = component.$$;
     if ($$.fragment !== null) {
-        run_all($$.on_destroy);
+        run_all$1($$.on_destroy);
         $$.fragment && $$.fragment.d(detaching);
         // TODO null out other refs, including component.$$ (but need to
         // preserve final state?)
@@ -671,33 +705,34 @@ function destroy_component(component, detaching) {
         $$.ctx = [];
     }
 }
-function make_dirty(component, i) {
+function make_dirty$1(component, i) {
     if (component.$$.dirty[0] === -1) {
-        dirty_components.push(component);
-        schedule_update();
+        dirty_components$1.push(component);
+        schedule_update$1();
         component.$$.dirty.fill(0);
     }
     component.$$.dirty[(i / 31) | 0] |= (1 << (i % 31));
 }
-function init(component, options, instance, create_fragment, not_equal, props, dirty = [-1]) {
-    const parent_component = current_component;
-    set_current_component(component);
+function init$1(component, options, instance, create_fragment, not_equal, props, dirty = [-1]) {
+    const parent_component = current_component$1;
+    set_current_component$1(component);
     const $$ = component.$$ = {
         fragment: null,
         ctx: null,
         // state
         props,
-        update: noop,
+        update: noop$1,
         not_equal,
-        bound: blank_object(),
+        bound: blank_object$1(),
         // lifecycle
         on_mount: [],
         on_destroy: [],
+        on_disconnect: [],
         before_update: [],
         after_update: [],
         context: new Map(parent_component ? parent_component.$$.context : []),
         // everything else
-        callbacks: blank_object(),
+        callbacks: blank_object$1(),
         dirty,
         skip_bound: false
     };
@@ -709,41 +744,41 @@ function init(component, options, instance, create_fragment, not_equal, props, d
                 if (!$$.skip_bound && $$.bound[i])
                     $$.bound[i](value);
                 if (ready)
-                    make_dirty(component, i);
+                    make_dirty$1(component, i);
             }
             return ret;
         })
         : [];
     $$.update();
     ready = true;
-    run_all($$.before_update);
+    run_all$1($$.before_update);
     // `false` as a special case of no DOM component
     $$.fragment = create_fragment ? create_fragment($$.ctx) : false;
     if (options.target) {
         if (options.hydrate) {
-            const nodes = children(options.target);
+            const nodes = children$1(options.target);
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             $$.fragment && $$.fragment.l(nodes);
-            nodes.forEach(detach);
+            nodes.forEach(detach$1);
         }
         else {
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             $$.fragment && $$.fragment.c();
         }
         if (options.intro)
-            transition_in(component.$$.fragment);
-        mount_component(component, options.target, options.anchor);
-        flush();
+            transition_in$1(component.$$.fragment);
+        mount_component$1(component, options.target, options.anchor, options.customElement);
+        flush$1();
     }
-    set_current_component(parent_component);
+    set_current_component$1(parent_component);
 }
 /**
  * Base class for Svelte components. Used when dev=false.
  */
-class SvelteComponent {
+class SvelteComponent$1 {
     $destroy() {
-        destroy_component(this, 1);
-        this.$destroy = noop;
+        destroy_component$1(this, 1);
+        this.$destroy = noop$1;
     }
     $on(type, callback) {
         const callbacks = (this.$$.callbacks[type] || (this.$$.callbacks[type] = []));
@@ -755,7 +790,7 @@ class SvelteComponent {
         };
     }
     $set($$props) {
-        if (this.$$set && !is_empty($$props)) {
+        if (this.$$set && !is_empty$1($$props)) {
             this.$$.skip_bound = true;
             this.$$set($$props);
             this.$$.skip_bound = false;
@@ -769,11 +804,11 @@ const subscriber_queue = [];
  * @param {*=}value initial value
  * @param {StartStopNotifier=}start start and stop notifications for subscriptions
  */
-function writable(value, start = noop) {
+function writable(value, start = noop$1) {
     let stop;
     const subscribers = [];
     function set(new_value) {
-        if (safe_not_equal(value, new_value)) {
+        if (safe_not_equal$1(value, new_value)) {
             value = new_value;
             if (stop) { // store is ready
                 const run_queue = !subscriber_queue.length;
@@ -794,11 +829,11 @@ function writable(value, start = noop) {
     function update(fn) {
         set(fn(value));
     }
-    function subscribe(run, invalidate = noop) {
+    function subscribe(run, invalidate = noop$1) {
         const subscriber = [run, invalidate];
         subscribers.push(subscriber);
         if (subscribers.length === 1) {
-            stop = start(set) || noop;
+            stop = start(set) || noop$1;
         }
         run(value);
         return () => {
@@ -815,7 +850,7 @@ function writable(value, start = noop) {
     return { set, update, subscribe };
 }
 
-const weekdays = [
+const weekdays$1 = [
     "sunday",
     "monday",
     "tuesday",
@@ -909,7 +944,7 @@ class CalendarSettingsTab extends obsidian.PluginSettingTab {
             .addDropdown((dropdown) => {
             dropdown.addOption("locale", `Locale default (${localeWeekStart})`);
             localizedWeekdays.forEach((day, i) => {
-                dropdown.addOption(weekdays[i], day);
+                dropdown.addOption(weekdays$1[i], day);
             });
             dropdown.setValue(this.plugin.options.weekStart);
             dropdown.onChange(async (value) => {
@@ -1034,11 +1069,11 @@ function getDateUIDFromFile(file) {
     // TODO: I'm not checking the path!
     let date = getDateFromFile_1(file, "day");
     if (date) {
-        return getDateUID_1(date, "day");
+        return getDateUID_1$1(date, "day");
     }
     date = getDateFromFile_1(file, "week");
     if (date) {
-        return getDateUID_1(date, "week");
+        return getDateUID_1$1(date, "week");
     }
     return null;
 }
@@ -1184,7 +1219,7 @@ async function tryToCreateWeeklyNote(date, inNewSplit, settings, cb) {
     }
 }
 
-function noop$1() { }
+function noop() { }
 function assign(tar, src) {
     // @ts-ignore
     for (const k in src)
@@ -1194,25 +1229,25 @@ function assign(tar, src) {
 function is_promise(value) {
     return value && typeof value === 'object' && typeof value.then === 'function';
 }
-function run$1(fn) {
+function run(fn) {
     return fn();
 }
-function blank_object$1() {
+function blank_object() {
     return Object.create(null);
 }
-function run_all$1(fns) {
-    fns.forEach(run$1);
+function run_all(fns) {
+    fns.forEach(run);
 }
-function is_function$1(thing) {
+function is_function(thing) {
     return typeof thing === 'function';
 }
-function safe_not_equal$1(a, b) {
+function safe_not_equal(a, b) {
     return a != a ? b == b : a !== b || ((a && typeof a === 'object') || typeof a === 'function');
 }
-function not_equal$1(a, b) {
+function not_equal(a, b) {
     return a != a ? b == b : a !== b;
 }
-function is_empty$1(obj) {
+function is_empty(obj) {
     return Object.keys(obj).length === 0;
 }
 function create_slot(definition, ctx, $$scope, fn) {
@@ -1261,7 +1296,7 @@ function append(target, node) {
 function insert(target, node, anchor) {
     target.insertBefore(node, anchor || null);
 }
-function detach$1(node) {
+function detach(node) {
     node.parentNode.removeChild(node);
 }
 function destroy_each(iterations, detaching) {
@@ -1316,7 +1351,7 @@ function set_attributes(node, attributes) {
         }
     }
 }
-function children$1(element) {
+function children(element) {
     return Array.from(element.childNodes);
 }
 function set_data(text, data) {
@@ -1328,107 +1363,107 @@ function toggle_class(element, name, toggle) {
     element.classList[toggle ? 'add' : 'remove'](name);
 }
 
-let current_component$1;
-function set_current_component$1(component) {
-    current_component$1 = component;
+let current_component;
+function set_current_component(component) {
+    current_component = component;
 }
-function get_current_component$1() {
-    if (!current_component$1)
+function get_current_component() {
+    if (!current_component)
         throw new Error('Function called outside component initialization');
-    return current_component$1;
+    return current_component;
 }
 
-const dirty_components$1 = [];
-const binding_callbacks$1 = [];
-const render_callbacks$1 = [];
-const flush_callbacks$1 = [];
-const resolved_promise$1 = Promise.resolve();
-let update_scheduled$1 = false;
-function schedule_update$1() {
-    if (!update_scheduled$1) {
-        update_scheduled$1 = true;
-        resolved_promise$1.then(flush$1);
+const dirty_components = [];
+const binding_callbacks = [];
+const render_callbacks = [];
+const flush_callbacks = [];
+const resolved_promise = Promise.resolve();
+let update_scheduled = false;
+function schedule_update() {
+    if (!update_scheduled) {
+        update_scheduled = true;
+        resolved_promise.then(flush);
     }
 }
-function add_render_callback$1(fn) {
-    render_callbacks$1.push(fn);
+function add_render_callback(fn) {
+    render_callbacks.push(fn);
 }
-let flushing$1 = false;
-const seen_callbacks$1 = new Set();
-function flush$1() {
-    if (flushing$1)
+let flushing = false;
+const seen_callbacks = new Set();
+function flush() {
+    if (flushing)
         return;
-    flushing$1 = true;
+    flushing = true;
     do {
         // first, call beforeUpdate functions
         // and update components
-        for (let i = 0; i < dirty_components$1.length; i += 1) {
-            const component = dirty_components$1[i];
-            set_current_component$1(component);
-            update$1(component.$$);
+        for (let i = 0; i < dirty_components.length; i += 1) {
+            const component = dirty_components[i];
+            set_current_component(component);
+            update(component.$$);
         }
-        set_current_component$1(null);
-        dirty_components$1.length = 0;
-        while (binding_callbacks$1.length)
-            binding_callbacks$1.pop()();
+        set_current_component(null);
+        dirty_components.length = 0;
+        while (binding_callbacks.length)
+            binding_callbacks.pop()();
         // then, once components are updated, call
         // afterUpdate functions. This may cause
         // subsequent updates...
-        for (let i = 0; i < render_callbacks$1.length; i += 1) {
-            const callback = render_callbacks$1[i];
-            if (!seen_callbacks$1.has(callback)) {
+        for (let i = 0; i < render_callbacks.length; i += 1) {
+            const callback = render_callbacks[i];
+            if (!seen_callbacks.has(callback)) {
                 // ...so guard against infinite loops
-                seen_callbacks$1.add(callback);
+                seen_callbacks.add(callback);
                 callback();
             }
         }
-        render_callbacks$1.length = 0;
-    } while (dirty_components$1.length);
-    while (flush_callbacks$1.length) {
-        flush_callbacks$1.pop()();
+        render_callbacks.length = 0;
+    } while (dirty_components.length);
+    while (flush_callbacks.length) {
+        flush_callbacks.pop()();
     }
-    update_scheduled$1 = false;
-    flushing$1 = false;
-    seen_callbacks$1.clear();
+    update_scheduled = false;
+    flushing = false;
+    seen_callbacks.clear();
 }
-function update$1($$) {
+function update($$) {
     if ($$.fragment !== null) {
         $$.update();
-        run_all$1($$.before_update);
+        run_all($$.before_update);
         const dirty = $$.dirty;
         $$.dirty = [-1];
         $$.fragment && $$.fragment.p($$.ctx, dirty);
-        $$.after_update.forEach(add_render_callback$1);
+        $$.after_update.forEach(add_render_callback);
     }
 }
-const outroing$1 = new Set();
-let outros$1;
+const outroing = new Set();
+let outros;
 function group_outros() {
-    outros$1 = {
+    outros = {
         r: 0,
         c: [],
-        p: outros$1 // parent group
+        p: outros // parent group
     };
 }
 function check_outros() {
-    if (!outros$1.r) {
-        run_all$1(outros$1.c);
+    if (!outros.r) {
+        run_all(outros.c);
     }
-    outros$1 = outros$1.p;
+    outros = outros.p;
 }
-function transition_in$1(block, local) {
+function transition_in(block, local) {
     if (block && block.i) {
-        outroing$1.delete(block);
+        outroing.delete(block);
         block.i(local);
     }
 }
-function transition_out$1(block, local, detach, callback) {
+function transition_out(block, local, detach, callback) {
     if (block && block.o) {
-        if (outroing$1.has(block))
+        if (outroing.has(block))
             return;
-        outroing$1.add(block);
-        outros$1.c.push(() => {
-            outroing$1.delete(block);
+        outroing.add(block);
+        outros.c.push(() => {
+            outroing.delete(block);
             if (callback) {
                 if (detach)
                     block.d(1);
@@ -1457,8 +1492,10 @@ function handle_promise(promise, info) {
                 info.blocks.forEach((block, i) => {
                     if (i !== index && block) {
                         group_outros();
-                        transition_out$1(block, 1, 1, () => {
-                            info.blocks[i] = null;
+                        transition_out(block, 1, 1, () => {
+                            if (info.blocks[i] === block) {
+                                info.blocks[i] = null;
+                            }
                         });
                         check_outros();
                     }
@@ -1468,7 +1505,7 @@ function handle_promise(promise, info) {
                 info.block.d(1);
             }
             block.c();
-            transition_in$1(block, 1);
+            transition_in(block, 1);
             block.m(info.mount(), info.anchor);
             needs_flush = true;
         }
@@ -1476,19 +1513,19 @@ function handle_promise(promise, info) {
         if (info.blocks)
             info.blocks[index] = block;
         if (needs_flush) {
-            flush$1();
+            flush();
         }
     }
     if (is_promise(promise)) {
-        const current_component = get_current_component$1();
+        const current_component = get_current_component();
         promise.then(value => {
-            set_current_component$1(current_component);
+            set_current_component(current_component);
             update(info.then, 1, info.value, value);
-            set_current_component$1(null);
+            set_current_component(null);
         }, error => {
-            set_current_component$1(current_component);
+            set_current_component(current_component);
             update(info.catch, 2, info.error, error);
-            set_current_component$1(null);
+            set_current_component(null);
             if (!info.hasCatch) {
                 throw error;
             }
@@ -1508,7 +1545,7 @@ function handle_promise(promise, info) {
     }
 }
 function outro_and_destroy_block(block, lookup) {
-    transition_out$1(block, 1, 1, () => {
+    transition_out(block, 1, 1, () => {
         lookup.delete(block.key);
     });
 }
@@ -1541,7 +1578,7 @@ function update_keyed_each(old_blocks, dirty, get_key, dynamic, ctx, list, looku
     const will_move = new Set();
     const did_move = new Set();
     function insert(block) {
-        transition_in$1(block, 1);
+        transition_in(block, 1);
         block.m(node, next);
         lookup.set(block.key, block);
         next = block.first;
@@ -1624,31 +1661,33 @@ function get_spread_update(levels, updates) {
 function get_spread_object(spread_props) {
     return typeof spread_props === 'object' && spread_props !== null ? spread_props : {};
 }
-function create_component$1(block) {
+function create_component(block) {
     block && block.c();
 }
-function mount_component$1(component, target, anchor) {
+function mount_component(component, target, anchor, customElement) {
     const { fragment, on_mount, on_destroy, after_update } = component.$$;
     fragment && fragment.m(target, anchor);
-    // onMount happens before the initial afterUpdate
-    add_render_callback$1(() => {
-        const new_on_destroy = on_mount.map(run$1).filter(is_function$1);
-        if (on_destroy) {
-            on_destroy.push(...new_on_destroy);
-        }
-        else {
-            // Edge case - component was destroyed immediately,
-            // most likely as a result of a binding initialising
-            run_all$1(new_on_destroy);
-        }
-        component.$$.on_mount = [];
-    });
-    after_update.forEach(add_render_callback$1);
+    if (!customElement) {
+        // onMount happens before the initial afterUpdate
+        add_render_callback(() => {
+            const new_on_destroy = on_mount.map(run).filter(is_function);
+            if (on_destroy) {
+                on_destroy.push(...new_on_destroy);
+            }
+            else {
+                // Edge case - component was destroyed immediately,
+                // most likely as a result of a binding initialising
+                run_all(new_on_destroy);
+            }
+            component.$$.on_mount = [];
+        });
+    }
+    after_update.forEach(add_render_callback);
 }
-function destroy_component$1(component, detaching) {
+function destroy_component(component, detaching) {
     const $$ = component.$$;
     if ($$.fragment !== null) {
-        run_all$1($$.on_destroy);
+        run_all($$.on_destroy);
         $$.fragment && $$.fragment.d(detaching);
         // TODO null out other refs, including component.$$ (but need to
         // preserve final state?)
@@ -1656,80 +1695,80 @@ function destroy_component$1(component, detaching) {
         $$.ctx = [];
     }
 }
-function make_dirty$1(component, i) {
+function make_dirty(component, i) {
     if (component.$$.dirty[0] === -1) {
-        dirty_components$1.push(component);
-        schedule_update$1();
+        dirty_components.push(component);
+        schedule_update();
         component.$$.dirty.fill(0);
     }
     component.$$.dirty[(i / 31) | 0] |= (1 << (i % 31));
 }
-function init$1(component, options, instance, create_fragment, not_equal, props, dirty = [-1]) {
-    const parent_component = current_component$1;
-    set_current_component$1(component);
-    const prop_values = options.props || {};
+function init(component, options, instance, create_fragment, not_equal, props, dirty = [-1]) {
+    const parent_component = current_component;
+    set_current_component(component);
     const $$ = component.$$ = {
         fragment: null,
         ctx: null,
         // state
         props,
-        update: noop$1,
+        update: noop,
         not_equal,
-        bound: blank_object$1(),
+        bound: blank_object(),
         // lifecycle
         on_mount: [],
         on_destroy: [],
+        on_disconnect: [],
         before_update: [],
         after_update: [],
         context: new Map(parent_component ? parent_component.$$.context : []),
         // everything else
-        callbacks: blank_object$1(),
+        callbacks: blank_object(),
         dirty,
         skip_bound: false
     };
     let ready = false;
     $$.ctx = instance
-        ? instance(component, prop_values, (i, ret, ...rest) => {
+        ? instance(component, options.props || {}, (i, ret, ...rest) => {
             const value = rest.length ? rest[0] : ret;
             if ($$.ctx && not_equal($$.ctx[i], $$.ctx[i] = value)) {
                 if (!$$.skip_bound && $$.bound[i])
                     $$.bound[i](value);
                 if (ready)
-                    make_dirty$1(component, i);
+                    make_dirty(component, i);
             }
             return ret;
         })
         : [];
     $$.update();
     ready = true;
-    run_all$1($$.before_update);
+    run_all($$.before_update);
     // `false` as a special case of no DOM component
     $$.fragment = create_fragment ? create_fragment($$.ctx) : false;
     if (options.target) {
         if (options.hydrate) {
-            const nodes = children$1(options.target);
+            const nodes = children(options.target);
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             $$.fragment && $$.fragment.l(nodes);
-            nodes.forEach(detach$1);
+            nodes.forEach(detach);
         }
         else {
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             $$.fragment && $$.fragment.c();
         }
         if (options.intro)
-            transition_in$1(component.$$.fragment);
-        mount_component$1(component, options.target, options.anchor);
-        flush$1();
+            transition_in(component.$$.fragment);
+        mount_component(component, options.target, options.anchor, options.customElement);
+        flush();
     }
-    set_current_component$1(parent_component);
+    set_current_component(parent_component);
 }
 /**
  * Base class for Svelte components. Used when dev=false.
  */
-class SvelteComponent$1 {
+class SvelteComponent {
     $destroy() {
-        destroy_component$1(this, 1);
-        this.$destroy = noop$1;
+        destroy_component(this, 1);
+        this.$destroy = noop;
     }
     $on(type, callback) {
         const callbacks = (this.$$.callbacks[type] || (this.$$.callbacks[type] = []));
@@ -1741,7 +1780,7 @@ class SvelteComponent$1 {
         };
     }
     $set($$props) {
-        if (this.$$set && !is_empty$1($$props)) {
+        if (this.$$set && !is_empty($$props)) {
             this.$$.skip_bound = true;
             this.$$set($$props);
             this.$$.skip_bound = false;
@@ -1765,15 +1804,17 @@ PERFORMANCE OF THIS SOFTWARE.
 ***************************************************************************** */
 /* global Reflect, Promise */
 
-var extendStatics$1 = function(d, b) {
-    extendStatics$1 = Object.setPrototypeOf ||
+var extendStatics = function(d, b) {
+    extendStatics = Object.setPrototypeOf ||
         ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
         function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
-    return extendStatics$1(d, b);
+    return extendStatics(d, b);
 };
 
-function __extends$1(d, b) {
-    extendStatics$1(d, b);
+function __extends(d, b) {
+    if (typeof b !== "function" && b !== null)
+        throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+    extendStatics(d, b);
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 }
@@ -1782,14 +1823,14 @@ function __extends$1(d, b) {
  * dateUID is a way of weekly identifying daily/weekly/monthly notes.
  * They are prefixed with the granularity to avoid ambiguity.
  */
-function getDateUID$1(date, granularity) {
+function getDateUID(date, granularity) {
     if (granularity === void 0) { granularity = "day"; }
     var ts = date.clone().startOf(granularity).format();
     return granularity + "-" + ts;
 }
 
 /** @class */ ((function (_super) {
-    __extends$1(DailyNotesFolderMissingError, _super);
+    __extends(DailyNotesFolderMissingError, _super);
     function DailyNotesFolderMissingError() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
@@ -1797,7 +1838,7 @@ function getDateUID$1(date, granularity) {
 })(Error));
 
 /** @class */ ((function (_super) {
-    __extends$1(WeeklyNotesFolderMissingError, _super);
+    __extends(WeeklyNotesFolderMissingError, _super);
     function WeeklyNotesFolderMissingError() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
@@ -1805,17 +1846,17 @@ function getDateUID$1(date, granularity) {
 })(Error));
 
 /** @class */ ((function (_super) {
-    __extends$1(MonthlyNotesFolderMissingError, _super);
+    __extends(MonthlyNotesFolderMissingError, _super);
     function MonthlyNotesFolderMissingError() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     return MonthlyNotesFolderMissingError;
 })(Error));
-var getDateUID_1$1 = getDateUID$1;
+var getDateUID_1 = getDateUID;
 
-/* src\components\Dot.svelte generated by Svelte v3.31.0 */
+/* src/components/Dot.svelte generated by Svelte v3.35.0 */
 
-function add_css() {
+function add_css$5() {
 	var style = element("style");
 	style.id = "svelte-1widvzq-style";
 	style.textContent = ".dot.svelte-1widvzq,.hollow.svelte-1widvzq{display:inline-block;height:6px;width:6px;margin:0 1px}.filled.svelte-1widvzq{fill:var(--color-dot)}.active.filled.svelte-1widvzq{fill:var(--text-on-accent)}.hollow.svelte-1widvzq{fill:none;stroke:var(--color-dot)}.active.hollow.svelte-1widvzq{fill:none;stroke:var(--text-on-accent)}";
@@ -1823,7 +1864,7 @@ function add_css() {
 }
 
 // (14:0) {:else}
-function create_else_block(ctx) {
+function create_else_block$1(ctx) {
 	let svg;
 	let circle;
 	let svg_class_value;
@@ -1854,13 +1895,13 @@ function create_else_block(ctx) {
 			}
 		},
 		d(detaching) {
-			if (detaching) detach$1(svg);
+			if (detaching) detach(svg);
 		}
 	};
 }
 
 // (6:0) {#if isFilled}
-function create_if_block(ctx) {
+function create_if_block$2(ctx) {
 	let svg;
 	let circle;
 	let svg_class_value;
@@ -1891,17 +1932,17 @@ function create_if_block(ctx) {
 			}
 		},
 		d(detaching) {
-			if (detaching) detach$1(svg);
+			if (detaching) detach(svg);
 		}
 	};
 }
 
-function create_fragment(ctx) {
+function create_fragment$6(ctx) {
 	let if_block_anchor;
 
 	function select_block_type(ctx, dirty) {
-		if (/*isFilled*/ ctx[1]) return create_if_block;
-		return create_else_block;
+		if (/*isFilled*/ ctx[1]) return create_if_block$2;
+		return create_else_block$1;
 	}
 
 	let current_block_type = select_block_type(ctx);
@@ -1929,16 +1970,16 @@ function create_fragment(ctx) {
 				}
 			}
 		},
-		i: noop$1,
-		o: noop$1,
+		i: noop,
+		o: noop,
 		d(detaching) {
 			if_block.d(detaching);
-			if (detaching) detach$1(if_block_anchor);
+			if (detaching) detach(if_block_anchor);
 		}
 	};
 }
 
-function instance($$self, $$props, $$invalidate) {
+function instance$6($$self, $$props, $$invalidate) {
 	let { className = "" } = $$props;
 	let { isFilled } = $$props;
 	let { isActive } = $$props;
@@ -1952,15 +1993,15 @@ function instance($$self, $$props, $$invalidate) {
 	return [className, isFilled, isActive];
 }
 
-class Dot extends SvelteComponent$1 {
+class Dot extends SvelteComponent {
 	constructor(options) {
 		super();
-		if (!document.getElementById("svelte-1widvzq-style")) add_css();
-		init$1(this, options, instance, create_fragment, safe_not_equal$1, { className: 0, isFilled: 1, isActive: 2 });
+		if (!document.getElementById("svelte-1widvzq-style")) add_css$5();
+		init(this, options, instance$6, create_fragment$6, safe_not_equal, { className: 0, isFilled: 1, isActive: 2 });
 	}
 }
 
-/* src\components\MetadataResolver.svelte generated by Svelte v3.31.0 */
+/* src/components/MetadataResolver.svelte generated by Svelte v3.35.0 */
 
 const get_default_slot_changes_1 = dirty => ({});
 const get_default_slot_context_1 = ctx => ({ metadata: null });
@@ -1968,7 +2009,7 @@ const get_default_slot_changes = dirty => ({ metadata: dirty & /*metadata*/ 1 })
 const get_default_slot_context = ctx => ({ metadata: /*resolvedMeta*/ ctx[3] });
 
 // (11:0) {:else}
-function create_else_block$1(ctx) {
+function create_else_block(ctx) {
 	let current;
 	const default_slot_template = /*#slots*/ ctx[2].default;
 	const default_slot = create_slot(default_slot_template, ctx, /*$$scope*/ ctx[1], get_default_slot_context_1);
@@ -1993,11 +2034,11 @@ function create_else_block$1(ctx) {
 		},
 		i(local) {
 			if (current) return;
-			transition_in$1(default_slot, local);
+			transition_in(default_slot, local);
 			current = true;
 		},
 		o(local) {
-			transition_out$1(default_slot, local);
+			transition_out(default_slot, local);
 			current = false;
 		},
 		d(detaching) {
@@ -2050,19 +2091,19 @@ function create_if_block$1(ctx) {
 		},
 		i(local) {
 			if (current) return;
-			transition_in$1(info.block);
+			transition_in(info.block);
 			current = true;
 		},
 		o(local) {
 			for (let i = 0; i < 3; i += 1) {
 				const block = info.blocks[i];
-				transition_out$1(block);
+				transition_out(block);
 			}
 
 			current = false;
 		},
 		d(detaching) {
-			if (detaching) detach$1(await_block_anchor);
+			if (detaching) detach(await_block_anchor);
 			info.block.d(detaching);
 			info.token = null;
 			info = null;
@@ -2070,19 +2111,19 @@ function create_if_block$1(ctx) {
 	};
 }
 
-// (1:0) <svelte:options immutable />    <script lang="ts">;  export let metadata;  </script>    {#if metadata}
+// (1:0) <svelte:options immutable />  <script lang="ts">; export let metadata; </script>  {#if metadata}
 function create_catch_block(ctx) {
 	return {
-		c: noop$1,
-		m: noop$1,
-		p: noop$1,
-		i: noop$1,
-		o: noop$1,
-		d: noop$1
+		c: noop,
+		m: noop,
+		p: noop,
+		i: noop,
+		o: noop,
+		d: noop
 	};
 }
 
-// (8:37)       <slot metadata="{resolvedMeta}
+// (8:37)      <slot metadata="{resolvedMeta}
 function create_then_block(ctx) {
 	let current;
 	const default_slot_template = /*#slots*/ ctx[2].default;
@@ -2108,11 +2149,11 @@ function create_then_block(ctx) {
 		},
 		i(local) {
 			if (current) return;
-			transition_in$1(default_slot, local);
+			transition_in(default_slot, local);
 			current = true;
 		},
 		o(local) {
-			transition_out$1(default_slot, local);
+			transition_out(default_slot, local);
 			current = false;
 		},
 		d(detaching) {
@@ -2121,24 +2162,24 @@ function create_then_block(ctx) {
 	};
 }
 
-// (1:0) <svelte:options immutable />    <script lang="ts">;  export let metadata;  </script>    {#if metadata}
+// (1:0) <svelte:options immutable />  <script lang="ts">; export let metadata; </script>  {#if metadata}
 function create_pending_block(ctx) {
 	return {
-		c: noop$1,
-		m: noop$1,
-		p: noop$1,
-		i: noop$1,
-		o: noop$1,
-		d: noop$1
+		c: noop,
+		m: noop,
+		p: noop,
+		i: noop,
+		o: noop,
+		d: noop
 	};
 }
 
-function create_fragment$1(ctx) {
+function create_fragment$5(ctx) {
 	let current_block_type_index;
 	let if_block;
 	let if_block_anchor;
 	let current;
-	const if_block_creators = [create_if_block$1, create_else_block$1];
+	const if_block_creators = [create_if_block$1, create_else_block];
 	const if_blocks = [];
 
 	function select_block_type(ctx, dirty) {
@@ -2168,7 +2209,7 @@ function create_fragment$1(ctx) {
 			} else {
 				group_outros();
 
-				transition_out$1(if_blocks[previous_block_index], 1, 1, () => {
+				transition_out(if_blocks[previous_block_index], 1, 1, () => {
 					if_blocks[previous_block_index] = null;
 				});
 
@@ -2182,27 +2223,27 @@ function create_fragment$1(ctx) {
 					if_block.p(ctx, dirty);
 				}
 
-				transition_in$1(if_block, 1);
+				transition_in(if_block, 1);
 				if_block.m(if_block_anchor.parentNode, if_block_anchor);
 			}
 		},
 		i(local) {
 			if (current) return;
-			transition_in$1(if_block);
+			transition_in(if_block);
 			current = true;
 		},
 		o(local) {
-			transition_out$1(if_block);
+			transition_out(if_block);
 			current = false;
 		},
 		d(detaching) {
 			if_blocks[current_block_type_index].d(detaching);
-			if (detaching) detach$1(if_block_anchor);
+			if (detaching) detach(if_block_anchor);
 		}
 	};
 }
 
-function instance$1($$self, $$props, $$invalidate) {
+function instance$5($$self, $$props, $$invalidate) {
 	let { $$slots: slots = {}, $$scope } = $$props;
 	
 	let { metadata } = $$props;
@@ -2215,10 +2256,10 @@ function instance$1($$self, $$props, $$invalidate) {
 	return [metadata, $$scope, slots];
 }
 
-class MetadataResolver extends SvelteComponent$1 {
+class MetadataResolver extends SvelteComponent {
 	constructor(options) {
 		super();
-		init$1(this, options, instance$1, create_fragment$1, not_equal$1, { metadata: 0 });
+		init(this, options, instance$5, create_fragment$5, not_equal, { metadata: 0 });
 	}
 }
 
@@ -2228,7 +2269,7 @@ function isMacOS() {
 function isMetaPressed(e) {
     return isMacOS() ? e.metaKey : e.ctrlKey;
 }
-function getDaysOfWeek$1(..._args) {
+function getDaysOfWeek(..._args) {
     return window.moment.weekdaysShort(true);
 }
 function isWeekend(date) {
@@ -2262,23 +2303,23 @@ function getMonth(displayedMonth, ..._args) {
     return month;
 }
 
-/* src\components\Day.svelte generated by Svelte v3.31.0 */
+/* src/components/Day.svelte generated by Svelte v3.35.0 */
 
-function add_css$1() {
+function add_css$4() {
 	var style = element("style");
 	style.id = "svelte-q3wqg9-style";
 	style.textContent = ".day.svelte-q3wqg9{background-color:var(--color-background-day);border-radius:4px;color:var(--color-text-day);cursor:pointer;font-size:0.8em;height:100%;padding:4px;position:relative;text-align:center;transition:background-color 0.1s ease-in, color 0.1s ease-in;vertical-align:baseline}.day.svelte-q3wqg9:hover{background-color:var(--interactive-hover)}.day.active.svelte-q3wqg9:hover{background-color:var(--interactive-accent-hover)}.adjacent-month.svelte-q3wqg9{opacity:0.25}.today.svelte-q3wqg9{color:var(--color-text-today)}.day.svelte-q3wqg9:active,.active.svelte-q3wqg9,.active.today.svelte-q3wqg9{color:var(--text-on-accent);background-color:var(--interactive-accent)}.dot-container.svelte-q3wqg9{display:flex;flex-wrap:wrap;justify-content:center;line-height:6px;min-height:6px}";
 	append(document.head, style);
 }
 
-function get_each_context(ctx, list, i) {
+function get_each_context$2(ctx, list, i) {
 	const child_ctx = ctx.slice();
 	child_ctx[11] = list[i];
 	return child_ctx;
 }
 
 // (36:8) {#each metadata.dots as dot}
-function create_each_block(ctx) {
+function create_each_block$2(ctx) {
 	let dot;
 	let current;
 	const dot_spread_levels = [/*dot*/ ctx[11]];
@@ -2292,10 +2333,10 @@ function create_each_block(ctx) {
 
 	return {
 		c() {
-			create_component$1(dot.$$.fragment);
+			create_component(dot.$$.fragment);
 		},
 		m(target, anchor) {
-			mount_component$1(dot, target, anchor);
+			mount_component(dot, target, anchor);
 			current = true;
 		},
 		p(ctx, dirty) {
@@ -2307,21 +2348,21 @@ function create_each_block(ctx) {
 		},
 		i(local) {
 			if (current) return;
-			transition_in$1(dot.$$.fragment, local);
+			transition_in(dot.$$.fragment, local);
 			current = true;
 		},
 		o(local) {
-			transition_out$1(dot.$$.fragment, local);
+			transition_out(dot.$$.fragment, local);
 			current = false;
 		},
 		d(detaching) {
-			destroy_component$1(dot, detaching);
+			destroy_component(dot, detaching);
 		}
 	};
 }
 
 // (22:2) <MetadataResolver metadata="{metadata}" let:metadata>
-function create_default_slot(ctx) {
+function create_default_slot$1(ctx) {
 	let div1;
 	let t0_value = /*date*/ ctx[0].format("D") + "";
 	let t0;
@@ -2335,10 +2376,10 @@ function create_default_slot(ctx) {
 	let each_blocks = [];
 
 	for (let i = 0; i < each_value.length; i += 1) {
-		each_blocks[i] = create_each_block(get_each_context(ctx, each_value, i));
+		each_blocks[i] = create_each_block$2(get_each_context$2(ctx, each_value, i));
 	}
 
-	const out = i => transition_out$1(each_blocks[i], 1, 1, () => {
+	const out = i => transition_out(each_blocks[i], 1, 1, () => {
 		each_blocks[i] = null;
 	});
 
@@ -2368,7 +2409,7 @@ function create_default_slot(ctx) {
 
 			attr(div0, "class", "dot-container svelte-q3wqg9");
 			set_attributes(div1, div1_data);
-			toggle_class(div1, "active", /*selectedId*/ ctx[6] === getDateUID_1$1(/*date*/ ctx[0], "day"));
+			toggle_class(div1, "active", /*selectedId*/ ctx[6] === getDateUID_1(/*date*/ ctx[0], "day"));
 			toggle_class(div1, "adjacent-month", !/*date*/ ctx[0].isSame(/*displayedMonth*/ ctx[5], "month"));
 			toggle_class(div1, "today", /*date*/ ctx[0].isSame(/*today*/ ctx[4], "day"));
 			toggle_class(div1, "svelte-q3wqg9", true);
@@ -2388,13 +2429,13 @@ function create_default_slot(ctx) {
 			if (!mounted) {
 				dispose = [
 					listen(div1, "click", function () {
-						if (is_function$1(/*onClick*/ ctx[2] && /*click_handler*/ ctx[8])) (/*onClick*/ ctx[2] && /*click_handler*/ ctx[8]).apply(this, arguments);
+						if (is_function(/*onClick*/ ctx[2] && /*click_handler*/ ctx[8])) (/*onClick*/ ctx[2] && /*click_handler*/ ctx[8]).apply(this, arguments);
 					}),
 					listen(div1, "contextmenu", function () {
-						if (is_function$1(/*onContextMenu*/ ctx[3] && /*contextmenu_handler*/ ctx[9])) (/*onContextMenu*/ ctx[3] && /*contextmenu_handler*/ ctx[9]).apply(this, arguments);
+						if (is_function(/*onContextMenu*/ ctx[3] && /*contextmenu_handler*/ ctx[9])) (/*onContextMenu*/ ctx[3] && /*contextmenu_handler*/ ctx[9]).apply(this, arguments);
 					}),
 					listen(div1, "pointerover", function () {
-						if (is_function$1(/*onHover*/ ctx[1] && /*pointerover_handler*/ ctx[10])) (/*onHover*/ ctx[1] && /*pointerover_handler*/ ctx[10]).apply(this, arguments);
+						if (is_function(/*onHover*/ ctx[1] && /*pointerover_handler*/ ctx[10])) (/*onHover*/ ctx[1] && /*pointerover_handler*/ ctx[10]).apply(this, arguments);
 					})
 				];
 
@@ -2410,15 +2451,15 @@ function create_default_slot(ctx) {
 				let i;
 
 				for (i = 0; i < each_value.length; i += 1) {
-					const child_ctx = get_each_context(ctx, each_value, i);
+					const child_ctx = get_each_context$2(ctx, each_value, i);
 
 					if (each_blocks[i]) {
 						each_blocks[i].p(child_ctx, dirty);
-						transition_in$1(each_blocks[i], 1);
+						transition_in(each_blocks[i], 1);
 					} else {
-						each_blocks[i] = create_each_block(child_ctx);
+						each_blocks[i] = create_each_block$2(child_ctx);
 						each_blocks[i].c();
-						transition_in$1(each_blocks[i], 1);
+						transition_in(each_blocks[i], 1);
 						each_blocks[i].m(div0, null);
 					}
 				}
@@ -2437,7 +2478,7 @@ function create_default_slot(ctx) {
 				dirty & /*metadata*/ 128 && (/*metadata*/ ctx[7].dataAttributes || {})
 			]));
 
-			toggle_class(div1, "active", /*selectedId*/ ctx[6] === getDateUID_1$1(/*date*/ ctx[0], "day"));
+			toggle_class(div1, "active", /*selectedId*/ ctx[6] === getDateUID_1(/*date*/ ctx[0], "day"));
 			toggle_class(div1, "adjacent-month", !/*date*/ ctx[0].isSame(/*displayedMonth*/ ctx[5], "month"));
 			toggle_class(div1, "today", /*date*/ ctx[0].isSame(/*today*/ ctx[4], "day"));
 			toggle_class(div1, "svelte-q3wqg9", true);
@@ -2446,7 +2487,7 @@ function create_default_slot(ctx) {
 			if (current) return;
 
 			for (let i = 0; i < each_value.length; i += 1) {
-				transition_in$1(each_blocks[i]);
+				transition_in(each_blocks[i]);
 			}
 
 			current = true;
@@ -2455,21 +2496,21 @@ function create_default_slot(ctx) {
 			each_blocks = each_blocks.filter(Boolean);
 
 			for (let i = 0; i < each_blocks.length; i += 1) {
-				transition_out$1(each_blocks[i]);
+				transition_out(each_blocks[i]);
 			}
 
 			current = false;
 		},
 		d(detaching) {
-			if (detaching) detach$1(div1);
+			if (detaching) detach(div1);
 			destroy_each(each_blocks, detaching);
 			mounted = false;
-			run_all$1(dispose);
+			run_all(dispose);
 		}
 	};
 }
 
-function create_fragment$2(ctx) {
+function create_fragment$4(ctx) {
 	let td;
 	let metadataresolver;
 	let current;
@@ -2479,7 +2520,7 @@ function create_fragment$2(ctx) {
 				metadata: /*metadata*/ ctx[7],
 				$$slots: {
 					default: [
-						create_default_slot,
+						create_default_slot$1,
 						({ metadata }) => ({ 7: metadata }),
 						({ metadata }) => metadata ? 128 : 0
 					]
@@ -2491,11 +2532,11 @@ function create_fragment$2(ctx) {
 	return {
 		c() {
 			td = element("td");
-			create_component$1(metadataresolver.$$.fragment);
+			create_component(metadataresolver.$$.fragment);
 		},
 		m(target, anchor) {
 			insert(target, td, anchor);
-			mount_component$1(metadataresolver, td, null);
+			mount_component(metadataresolver, td, null);
 			current = true;
 		},
 		p(ctx, [dirty]) {
@@ -2510,21 +2551,21 @@ function create_fragment$2(ctx) {
 		},
 		i(local) {
 			if (current) return;
-			transition_in$1(metadataresolver.$$.fragment, local);
+			transition_in(metadataresolver.$$.fragment, local);
 			current = true;
 		},
 		o(local) {
-			transition_out$1(metadataresolver.$$.fragment, local);
+			transition_out(metadataresolver.$$.fragment, local);
 			current = false;
 		},
 		d(detaching) {
-			if (detaching) detach$1(td);
-			destroy_component$1(metadataresolver);
+			if (detaching) detach(td);
+			destroy_component(metadataresolver);
 		}
 	};
 }
 
-function instance$2($$self, $$props, $$invalidate) {
+function instance$4($$self, $$props, $$invalidate) {
 	
 	
 	let { date } = $$props;
@@ -2565,12 +2606,12 @@ function instance$2($$self, $$props, $$invalidate) {
 	];
 }
 
-class Day extends SvelteComponent$1 {
+class Day extends SvelteComponent {
 	constructor(options) {
 		super();
-		if (!document.getElementById("svelte-q3wqg9-style")) add_css$1();
+		if (!document.getElementById("svelte-q3wqg9-style")) add_css$4();
 
-		init$1(this, options, instance$2, create_fragment$2, not_equal$1, {
+		init(this, options, instance$4, create_fragment$4, not_equal, {
 			date: 0,
 			metadata: 7,
 			onHover: 1,
@@ -2583,9 +2624,9 @@ class Day extends SvelteComponent$1 {
 	}
 }
 
-/* src\components\Arrow.svelte generated by Svelte v3.31.0 */
+/* src/components/Arrow.svelte generated by Svelte v3.35.0 */
 
-function add_css$2() {
+function add_css$3() {
 	var style = element("style");
 	style.id = "svelte-gbeivq-style";
 	style.textContent = ".arrow.svelte-gbeivq.svelte-gbeivq{align-items:center;cursor:pointer;display:flex;justify-content:center;width:24px}.right.svelte-gbeivq.svelte-gbeivq{transform:rotate(180deg)}.arrow.svelte-gbeivq svg.svelte-gbeivq{color:var(--color-arrow);height:16px;width:16px}";
@@ -2622,7 +2663,7 @@ function create_fragment$3(ctx) {
 
 			if (!mounted) {
 				dispose = listen(div, "click", function () {
-					if (is_function$1(/*onClick*/ ctx[0])) /*onClick*/ ctx[0].apply(this, arguments);
+					if (is_function(/*onClick*/ ctx[0])) /*onClick*/ ctx[0].apply(this, arguments);
 				});
 
 				mounted = true;
@@ -2639,10 +2680,10 @@ function create_fragment$3(ctx) {
 				toggle_class(div, "right", /*direction*/ ctx[2] === "right");
 			}
 		},
-		i: noop$1,
-		o: noop$1,
+		i: noop,
+		o: noop,
 		d(detaching) {
-			if (detaching) detach$1(div);
+			if (detaching) detach(div);
 			mounted = false;
 			dispose();
 		}
@@ -2663,24 +2704,24 @@ function instance$3($$self, $$props, $$invalidate) {
 	return [onClick, tooltip, direction];
 }
 
-class Arrow extends SvelteComponent$1 {
+class Arrow extends SvelteComponent {
 	constructor(options) {
 		super();
-		if (!document.getElementById("svelte-gbeivq-style")) add_css$2();
-		init$1(this, options, instance$3, create_fragment$3, safe_not_equal$1, { onClick: 0, tooltip: 1, direction: 2 });
+		if (!document.getElementById("svelte-gbeivq-style")) add_css$3();
+		init(this, options, instance$3, create_fragment$3, safe_not_equal, { onClick: 0, tooltip: 1, direction: 2 });
 	}
 }
 
-/* src\components\Nav.svelte generated by Svelte v3.31.0 */
+/* src/components/Nav.svelte generated by Svelte v3.35.0 */
 
-function add_css$3() {
+function add_css$2() {
 	var style = element("style");
 	style.id = "svelte-1elemso-style";
 	style.textContent = ".nav.svelte-1elemso{align-items:center;display:flex;margin:0.6em 0 1em;padding:0 8px;width:100%}.title.svelte-1elemso{color:var(--color-text-title);font-size:1.5em;margin:0}.month.svelte-1elemso{font-weight:500;text-transform:capitalize}.year.svelte-1elemso{color:var(--interactive-accent)}.right-nav.svelte-1elemso{display:flex;justify-content:center;margin-left:auto}.reset-button.svelte-1elemso{border-radius:4px;color:var(--text-muted);font-size:0.7em;font-weight:600;letter-spacing:1px;margin:0 4px;padding:0px 4px;text-transform:uppercase}";
 	append(document.head, style);
 }
 
-function create_fragment$4(ctx) {
+function create_fragment$2(ctx) {
 	let div2;
 	let h3;
 	let span0;
@@ -2728,12 +2769,12 @@ function create_fragment$4(ctx) {
 			t2 = text(t2_value);
 			t3 = space();
 			div1 = element("div");
-			create_component$1(arrow0.$$.fragment);
+			create_component(arrow0.$$.fragment);
 			t4 = space();
 			div0 = element("div");
 			div0.textContent = `${/*todayDisplayStr*/ ctx[4]}`;
 			t6 = space();
-			create_component$1(arrow1.$$.fragment);
+			create_component(arrow1.$$.fragment);
 			attr(span0, "class", "month svelte-1elemso");
 			attr(span1, "class", "year svelte-1elemso");
 			attr(h3, "class", "title svelte-1elemso");
@@ -2751,20 +2792,20 @@ function create_fragment$4(ctx) {
 			append(span1, t2);
 			append(div2, t3);
 			append(div2, div1);
-			mount_component$1(arrow0, div1, null);
+			mount_component(arrow0, div1, null);
 			append(div1, t4);
 			append(div1, div0);
 			append(div1, t6);
-			mount_component$1(arrow1, div1, null);
+			mount_component(arrow1, div1, null);
 			current = true;
 
 			if (!mounted) {
 				dispose = [
 					listen(h3, "click", function () {
-						if (is_function$1(/*resetDisplayedMonth*/ ctx[1])) /*resetDisplayedMonth*/ ctx[1].apply(this, arguments);
+						if (is_function(/*resetDisplayedMonth*/ ctx[1])) /*resetDisplayedMonth*/ ctx[1].apply(this, arguments);
 					}),
 					listen(div0, "click", function () {
-						if (is_function$1(/*resetDisplayedMonth*/ ctx[1])) /*resetDisplayedMonth*/ ctx[1].apply(this, arguments);
+						if (is_function(/*resetDisplayedMonth*/ ctx[1])) /*resetDisplayedMonth*/ ctx[1].apply(this, arguments);
 					})
 				];
 
@@ -2784,26 +2825,26 @@ function create_fragment$4(ctx) {
 		},
 		i(local) {
 			if (current) return;
-			transition_in$1(arrow0.$$.fragment, local);
-			transition_in$1(arrow1.$$.fragment, local);
+			transition_in(arrow0.$$.fragment, local);
+			transition_in(arrow1.$$.fragment, local);
 			current = true;
 		},
 		o(local) {
-			transition_out$1(arrow0.$$.fragment, local);
-			transition_out$1(arrow1.$$.fragment, local);
+			transition_out(arrow0.$$.fragment, local);
+			transition_out(arrow1.$$.fragment, local);
 			current = false;
 		},
 		d(detaching) {
-			if (detaching) detach$1(div2);
-			destroy_component$1(arrow0);
-			destroy_component$1(arrow1);
+			if (detaching) detach(div2);
+			destroy_component(arrow0);
+			destroy_component(arrow1);
 			mounted = false;
-			run_all$1(dispose);
+			run_all(dispose);
 		}
 	};
 }
 
-function instance$4($$self, $$props, $$invalidate) {
+function instance$2($$self, $$props, $$invalidate) {
 	
 	let { displayedMonth } = $$props;
 	let { today } = $$props;
@@ -2832,12 +2873,12 @@ function instance$4($$self, $$props, $$invalidate) {
 	];
 }
 
-class Nav extends SvelteComponent$1 {
+class Nav extends SvelteComponent {
 	constructor(options) {
 		super();
-		if (!document.getElementById("svelte-1elemso-style")) add_css$3();
+		if (!document.getElementById("svelte-1elemso-style")) add_css$2();
 
-		init$1(this, options, instance$4, create_fragment$4, safe_not_equal$1, {
+		init(this, options, instance$2, create_fragment$2, safe_not_equal, {
 			displayedMonth: 0,
 			today: 5,
 			resetDisplayedMonth: 1,
@@ -2847,9 +2888,9 @@ class Nav extends SvelteComponent$1 {
 	}
 }
 
-/* src\components\WeekNum.svelte generated by Svelte v3.31.0 */
+/* src/components/WeekNum.svelte generated by Svelte v3.35.0 */
 
-function add_css$4() {
+function add_css$1() {
 	var style = element("style");
 	style.id = "svelte-egt0yd-style";
 	style.textContent = "td.svelte-egt0yd{border-right:1px solid var(--background-modifier-border)}.week-num.svelte-egt0yd{background-color:var(--color-background-weeknum);border-radius:4px;color:var(--color-text-weeknum);cursor:pointer;font-size:0.65em;height:100%;padding:4px;text-align:center;transition:background-color 0.1s ease-in, color 0.1s ease-in;vertical-align:baseline}.week-num.svelte-egt0yd:hover{background-color:var(--interactive-hover)}.week-num.active.svelte-egt0yd:hover{background-color:var(--interactive-accent-hover)}.active.svelte-egt0yd{color:var(--text-on-accent);background-color:var(--interactive-accent)}.dot-container.svelte-egt0yd{display:flex;flex-wrap:wrap;justify-content:center;line-height:6px;min-height:6px}";
@@ -2877,10 +2918,10 @@ function create_each_block$1(ctx) {
 
 	return {
 		c() {
-			create_component$1(dot.$$.fragment);
+			create_component(dot.$$.fragment);
 		},
 		m(target, anchor) {
-			mount_component$1(dot, target, anchor);
+			mount_component(dot, target, anchor);
 			current = true;
 		},
 		p(ctx, dirty) {
@@ -2892,21 +2933,21 @@ function create_each_block$1(ctx) {
 		},
 		i(local) {
 			if (current) return;
-			transition_in$1(dot.$$.fragment, local);
+			transition_in(dot.$$.fragment, local);
 			current = true;
 		},
 		o(local) {
-			transition_out$1(dot.$$.fragment, local);
+			transition_out(dot.$$.fragment, local);
 			current = false;
 		},
 		d(detaching) {
-			destroy_component$1(dot, detaching);
+			destroy_component(dot, detaching);
 		}
 	};
 }
 
 // (24:2) <MetadataResolver metadata="{metadata}" let:metadata>
-function create_default_slot$1(ctx) {
+function create_default_slot(ctx) {
 	let div1;
 	let t0;
 	let t1;
@@ -2922,7 +2963,7 @@ function create_default_slot$1(ctx) {
 		each_blocks[i] = create_each_block$1(get_each_context$1(ctx, each_value, i));
 	}
 
-	const out = i => transition_out$1(each_blocks[i], 1, 1, () => {
+	const out = i => transition_out(each_blocks[i], 1, 1, () => {
 		each_blocks[i] = null;
 	});
 
@@ -2939,7 +2980,7 @@ function create_default_slot$1(ctx) {
 
 			attr(div0, "class", "dot-container svelte-egt0yd");
 			attr(div1, "class", div1_class_value = "" + (null_to_empty(`week-num ${/*metadata*/ ctx[6].classes.join(" ")}`) + " svelte-egt0yd"));
-			toggle_class(div1, "active", /*selectedId*/ ctx[5] === getDateUID_1$1(/*days*/ ctx[1][0], "week"));
+			toggle_class(div1, "active", /*selectedId*/ ctx[5] === getDateUID_1(/*days*/ ctx[1][0], "week"));
 		},
 		m(target, anchor) {
 			insert(target, div1, anchor);
@@ -2956,13 +2997,13 @@ function create_default_slot$1(ctx) {
 			if (!mounted) {
 				dispose = [
 					listen(div1, "click", function () {
-						if (is_function$1(/*onClick*/ ctx[3] && /*click_handler*/ ctx[8])) (/*onClick*/ ctx[3] && /*click_handler*/ ctx[8]).apply(this, arguments);
+						if (is_function(/*onClick*/ ctx[3] && /*click_handler*/ ctx[8])) (/*onClick*/ ctx[3] && /*click_handler*/ ctx[8]).apply(this, arguments);
 					}),
 					listen(div1, "contextmenu", function () {
-						if (is_function$1(/*onContextMenu*/ ctx[4] && /*contextmenu_handler*/ ctx[9])) (/*onContextMenu*/ ctx[4] && /*contextmenu_handler*/ ctx[9]).apply(this, arguments);
+						if (is_function(/*onContextMenu*/ ctx[4] && /*contextmenu_handler*/ ctx[9])) (/*onContextMenu*/ ctx[4] && /*contextmenu_handler*/ ctx[9]).apply(this, arguments);
 					}),
 					listen(div1, "pointerover", function () {
-						if (is_function$1(/*onHover*/ ctx[2] && /*pointerover_handler*/ ctx[10])) (/*onHover*/ ctx[2] && /*pointerover_handler*/ ctx[10]).apply(this, arguments);
+						if (is_function(/*onHover*/ ctx[2] && /*pointerover_handler*/ ctx[10])) (/*onHover*/ ctx[2] && /*pointerover_handler*/ ctx[10]).apply(this, arguments);
 					})
 				];
 
@@ -2982,11 +3023,11 @@ function create_default_slot$1(ctx) {
 
 					if (each_blocks[i]) {
 						each_blocks[i].p(child_ctx, dirty);
-						transition_in$1(each_blocks[i], 1);
+						transition_in(each_blocks[i], 1);
 					} else {
 						each_blocks[i] = create_each_block$1(child_ctx);
 						each_blocks[i].c();
-						transition_in$1(each_blocks[i], 1);
+						transition_in(each_blocks[i], 1);
 						each_blocks[i].m(div0, null);
 					}
 				}
@@ -3005,14 +3046,14 @@ function create_default_slot$1(ctx) {
 			}
 
 			if (dirty & /*metadata, selectedId, getDateUID, days*/ 98) {
-				toggle_class(div1, "active", /*selectedId*/ ctx[5] === getDateUID_1$1(/*days*/ ctx[1][0], "week"));
+				toggle_class(div1, "active", /*selectedId*/ ctx[5] === getDateUID_1(/*days*/ ctx[1][0], "week"));
 			}
 		},
 		i(local) {
 			if (current) return;
 
 			for (let i = 0; i < each_value.length; i += 1) {
-				transition_in$1(each_blocks[i]);
+				transition_in(each_blocks[i]);
 			}
 
 			current = true;
@@ -3021,21 +3062,21 @@ function create_default_slot$1(ctx) {
 			each_blocks = each_blocks.filter(Boolean);
 
 			for (let i = 0; i < each_blocks.length; i += 1) {
-				transition_out$1(each_blocks[i]);
+				transition_out(each_blocks[i]);
 			}
 
 			current = false;
 		},
 		d(detaching) {
-			if (detaching) detach$1(div1);
+			if (detaching) detach(div1);
 			destroy_each(each_blocks, detaching);
 			mounted = false;
-			run_all$1(dispose);
+			run_all(dispose);
 		}
 	};
 }
 
-function create_fragment$5(ctx) {
+function create_fragment$1(ctx) {
 	let td;
 	let metadataresolver;
 	let current;
@@ -3045,7 +3086,7 @@ function create_fragment$5(ctx) {
 				metadata: /*metadata*/ ctx[6],
 				$$slots: {
 					default: [
-						create_default_slot$1,
+						create_default_slot,
 						({ metadata }) => ({ 6: metadata }),
 						({ metadata }) => metadata ? 64 : 0
 					]
@@ -3057,12 +3098,12 @@ function create_fragment$5(ctx) {
 	return {
 		c() {
 			td = element("td");
-			create_component$1(metadataresolver.$$.fragment);
+			create_component(metadataresolver.$$.fragment);
 			attr(td, "class", "svelte-egt0yd");
 		},
 		m(target, anchor) {
 			insert(target, td, anchor);
-			mount_component$1(metadataresolver, td, null);
+			mount_component(metadataresolver, td, null);
 			current = true;
 		},
 		p(ctx, [dirty]) {
@@ -3077,21 +3118,21 @@ function create_fragment$5(ctx) {
 		},
 		i(local) {
 			if (current) return;
-			transition_in$1(metadataresolver.$$.fragment, local);
+			transition_in(metadataresolver.$$.fragment, local);
 			current = true;
 		},
 		o(local) {
-			transition_out$1(metadataresolver.$$.fragment, local);
+			transition_out(metadataresolver.$$.fragment, local);
 			current = false;
 		},
 		d(detaching) {
-			if (detaching) detach$1(td);
-			destroy_component$1(metadataresolver);
+			if (detaching) detach(td);
+			destroy_component(metadataresolver);
 		}
 	};
 }
 
-function instance$5($$self, $$props, $$invalidate) {
+function instance$1($$self, $$props, $$invalidate) {
 	
 	
 	let { weekNum } = $$props;
@@ -3118,7 +3159,7 @@ function instance$5($$self, $$props, $$invalidate) {
 
 	$$self.$$.update = () => {
 		if ($$self.$$.dirty & /*days*/ 2) {
-			 $$invalidate(7, startOfWeek = getStartOfWeek(days));
+			$$invalidate(7, startOfWeek = getStartOfWeek(days));
 		}
 	};
 
@@ -3137,12 +3178,12 @@ function instance$5($$self, $$props, $$invalidate) {
 	];
 }
 
-class WeekNum extends SvelteComponent$1 {
+class WeekNum extends SvelteComponent {
 	constructor(options) {
 		super();
-		if (!document.getElementById("svelte-egt0yd-style")) add_css$4();
+		if (!document.getElementById("svelte-egt0yd-style")) add_css$1();
 
-		init$1(this, options, instance$5, create_fragment$5, not_equal$1, {
+		init(this, options, instance$1, create_fragment$1, not_equal, {
 			weekNum: 0,
 			days: 1,
 			metadata: 6,
@@ -3174,16 +3215,16 @@ function getWeeklyMetadata(sources, date, ..._args) {
     return metadataReducer(sources.map((source) => source.getWeeklyMetadata(date)));
 }
 
-/* src\components\Calendar.svelte generated by Svelte v3.31.0 */
+/* src/components/Calendar.svelte generated by Svelte v3.35.0 */
 
-function add_css$5() {
+function add_css() {
 	var style = element("style");
 	style.id = "svelte-km7ymq-style";
 	style.textContent = ".container.svelte-km7ymq{--color-background-heading:transparent;--color-background-day:transparent;--color-background-weeknum:transparent;--color-background-weekend:transparent;--color-dot:var(--text-muted);--color-arrow:var(--text-muted);--color-button:var(--text-muted);--color-text-title:var(--text-normal);--color-text-heading:var(--text-muted);--color-text-day:var(--text-normal);--color-text-today:var(--interactive-accent);--color-text-weeknum:var(--text-muted)}.container.svelte-km7ymq{padding:0 8px}th.svelte-km7ymq{text-align:center}.weekend.svelte-km7ymq{background-color:var(--color-background-weekend)}.calendar.svelte-km7ymq{border-collapse:collapse;width:100%}th.svelte-km7ymq{background-color:var(--color-background-heading);color:var(--color-text-heading);font-size:0.6em;letter-spacing:1px;padding:4px;text-transform:uppercase}";
 	append(document.head, style);
 }
 
-function get_each_context$2(ctx, list, i) {
+function get_each_context(ctx, list, i) {
 	const child_ctx = ctx.slice();
 	child_ctx[17] = list[i];
 	return child_ctx;
@@ -3219,7 +3260,7 @@ function create_if_block_2(ctx) {
 			insert(target, col, anchor);
 		},
 		d(detaching) {
-			if (detaching) detach$1(col);
+			if (detaching) detach(col);
 		}
 	};
 }
@@ -3243,7 +3284,7 @@ function create_each_block_3(ctx) {
 			}
 		},
 		d(detaching) {
-			if (detaching) detach$1(col);
+			if (detaching) detach(col);
 		}
 	};
 }
@@ -3262,7 +3303,7 @@ function create_if_block_1(ctx) {
 			insert(target, th, anchor);
 		},
 		d(detaching) {
-			if (detaching) detach$1(th);
+			if (detaching) detach(th);
 		}
 	};
 }
@@ -3287,13 +3328,13 @@ function create_each_block_2(ctx) {
 			if (dirty & /*daysOfWeek*/ 32768 && t_value !== (t_value = /*dayOfWeek*/ ctx[23] + "")) set_data(t, t_value);
 		},
 		d(detaching) {
-			if (detaching) detach$1(th);
+			if (detaching) detach(th);
 		}
 	};
 }
 
 // (73:10) {#if showWeekNums}
-function create_if_block$2(ctx) {
+function create_if_block(ctx) {
 	let weeknum;
 	let current;
 
@@ -3320,10 +3361,10 @@ function create_if_block$2(ctx) {
 
 	return {
 		c() {
-			create_component$1(weeknum.$$.fragment);
+			create_component(weeknum.$$.fragment);
 		},
 		m(target, anchor) {
-			mount_component$1(weeknum, target, anchor);
+			mount_component(weeknum, target, anchor);
 			current = true;
 		},
 		p(ctx, dirty) {
@@ -3346,15 +3387,15 @@ function create_if_block$2(ctx) {
 		},
 		i(local) {
 			if (current) return;
-			transition_in$1(weeknum.$$.fragment, local);
+			transition_in(weeknum.$$.fragment, local);
 			current = true;
 		},
 		o(local) {
-			transition_out$1(weeknum.$$.fragment, local);
+			transition_out(weeknum.$$.fragment, local);
 			current = false;
 		},
 		d(detaching) {
-			destroy_component$1(weeknum, detaching);
+			destroy_component(weeknum, detaching);
 		}
 	};
 }
@@ -3383,15 +3424,16 @@ function create_each_block_1(key_1, ctx) {
 		first: null,
 		c() {
 			first = empty();
-			create_component$1(day.$$.fragment);
+			create_component(day.$$.fragment);
 			this.first = first;
 		},
 		m(target, anchor) {
 			insert(target, first, anchor);
-			mount_component$1(day, target, anchor);
+			mount_component(day, target, anchor);
 			current = true;
 		},
-		p(ctx, dirty) {
+		p(new_ctx, dirty) {
+			ctx = new_ctx;
 			const day_changes = {};
 			if (dirty & /*month*/ 16384) day_changes.date = /*day*/ ctx[20];
 			if (dirty & /*today*/ 1024) day_changes.today = /*today*/ ctx[10];
@@ -3405,29 +3447,29 @@ function create_each_block_1(key_1, ctx) {
 		},
 		i(local) {
 			if (current) return;
-			transition_in$1(day.$$.fragment, local);
+			transition_in(day.$$.fragment, local);
 			current = true;
 		},
 		o(local) {
-			transition_out$1(day.$$.fragment, local);
+			transition_out(day.$$.fragment, local);
 			current = false;
 		},
 		d(detaching) {
-			if (detaching) detach$1(first);
-			destroy_component$1(day, detaching);
+			if (detaching) detach(first);
+			destroy_component(day, detaching);
 		}
 	};
 }
 
 // (71:6) {#each month as week (week.weekNum)}
-function create_each_block$2(key_1, ctx) {
+function create_each_block(key_1, ctx) {
 	let tr;
 	let t0;
 	let each_blocks = [];
 	let each_1_lookup = new Map();
 	let t1;
 	let current;
-	let if_block = /*showWeekNums*/ ctx[1] && create_if_block$2(ctx);
+	let if_block = /*showWeekNums*/ ctx[1] && create_if_block(ctx);
 	let each_value_1 = /*week*/ ctx[17].days;
 	const get_key = ctx => /*day*/ ctx[20].format();
 
@@ -3464,24 +3506,26 @@ function create_each_block$2(key_1, ctx) {
 			append(tr, t1);
 			current = true;
 		},
-		p(ctx, dirty) {
+		p(new_ctx, dirty) {
+			ctx = new_ctx;
+
 			if (/*showWeekNums*/ ctx[1]) {
 				if (if_block) {
 					if_block.p(ctx, dirty);
 
 					if (dirty & /*showWeekNums*/ 2) {
-						transition_in$1(if_block, 1);
+						transition_in(if_block, 1);
 					}
 				} else {
-					if_block = create_if_block$2(ctx);
+					if_block = create_if_block(ctx);
 					if_block.c();
-					transition_in$1(if_block, 1);
+					transition_in(if_block, 1);
 					if_block.m(tr, t0);
 				}
 			} else if (if_block) {
 				group_outros();
 
-				transition_out$1(if_block, 1, 1, () => {
+				transition_out(if_block, 1, 1, () => {
 					if_block = null;
 				});
 
@@ -3489,7 +3533,7 @@ function create_each_block$2(key_1, ctx) {
 			}
 
 			if (dirty & /*month, today, displayedMonth, onClickDay, onContextMenuDay, onHoverDay, getDailyMetadata, sources, selectedId*/ 18261) {
-				const each_value_1 = /*week*/ ctx[17].days;
+				each_value_1 = /*week*/ ctx[17].days;
 				group_outros();
 				each_blocks = update_keyed_each(each_blocks, dirty, get_key, 1, ctx, each_value_1, each_1_lookup, tr, outro_and_destroy_block, create_each_block_1, t1, get_each_context_1);
 				check_outros();
@@ -3497,25 +3541,25 @@ function create_each_block$2(key_1, ctx) {
 		},
 		i(local) {
 			if (current) return;
-			transition_in$1(if_block);
+			transition_in(if_block);
 
 			for (let i = 0; i < each_value_1.length; i += 1) {
-				transition_in$1(each_blocks[i]);
+				transition_in(each_blocks[i]);
 			}
 
 			current = true;
 		},
 		o(local) {
-			transition_out$1(if_block);
+			transition_out(if_block);
 
 			for (let i = 0; i < each_blocks.length; i += 1) {
-				transition_out$1(each_blocks[i]);
+				transition_out(each_blocks[i]);
 			}
 
 			current = false;
 		},
 		d(detaching) {
-			if (detaching) detach$1(tr);
+			if (detaching) detach(tr);
 			if (if_block) if_block.d();
 
 			for (let i = 0; i < each_blocks.length; i += 1) {
@@ -3525,7 +3569,7 @@ function create_each_block$2(key_1, ctx) {
 	};
 }
 
-function create_fragment$6(ctx) {
+function create_fragment$7(ctx) {
 	let div;
 	let nav;
 	let t0;
@@ -3572,15 +3616,15 @@ function create_fragment$6(ctx) {
 	const get_key = ctx => /*week*/ ctx[17].weekNum;
 
 	for (let i = 0; i < each_value.length; i += 1) {
-		let child_ctx = get_each_context$2(ctx, each_value, i);
+		let child_ctx = get_each_context(ctx, each_value, i);
 		let key = get_key(child_ctx);
-		each2_lookup.set(key, each_blocks[i] = create_each_block$2(key, child_ctx));
+		each2_lookup.set(key, each_blocks[i] = create_each_block(key, child_ctx));
 	}
 
 	return {
 		c() {
 			div = element("div");
-			create_component$1(nav.$$.fragment);
+			create_component(nav.$$.fragment);
 			t0 = space();
 			table = element("table");
 			colgroup = element("colgroup");
@@ -3614,7 +3658,7 @@ function create_fragment$6(ctx) {
 		},
 		m(target, anchor) {
 			insert(target, div, anchor);
-			mount_component$1(nav, div, null);
+			mount_component(nav, div, null);
 			append(div, t0);
 			append(div, table);
 			append(table, colgroup);
@@ -3719,34 +3763,34 @@ function create_fragment$6(ctx) {
 			}
 
 			if (dirty & /*month, today, displayedMonth, onClickDay, onContextMenuDay, onHoverDay, getDailyMetadata, sources, selectedId, getWeeklyMetadata, onClickWeek, onContextMenuWeek, onHoverWeek, showWeekNums*/ 18431) {
-				const each_value = /*month*/ ctx[14];
+				each_value = /*month*/ ctx[14];
 				group_outros();
-				each_blocks = update_keyed_each(each_blocks, dirty, get_key, 1, ctx, each_value, each2_lookup, tbody, outro_and_destroy_block, create_each_block$2, null, get_each_context$2);
+				each_blocks = update_keyed_each(each_blocks, dirty, get_key, 1, ctx, each_value, each2_lookup, tbody, outro_and_destroy_block, create_each_block, null, get_each_context);
 				check_outros();
 			}
 		},
 		i(local) {
 			if (current) return;
-			transition_in$1(nav.$$.fragment, local);
+			transition_in(nav.$$.fragment, local);
 
 			for (let i = 0; i < each_value.length; i += 1) {
-				transition_in$1(each_blocks[i]);
+				transition_in(each_blocks[i]);
 			}
 
 			current = true;
 		},
 		o(local) {
-			transition_out$1(nav.$$.fragment, local);
+			transition_out(nav.$$.fragment, local);
 
 			for (let i = 0; i < each_blocks.length; i += 1) {
-				transition_out$1(each_blocks[i]);
+				transition_out(each_blocks[i]);
 			}
 
 			current = false;
 		},
 		d(detaching) {
-			if (detaching) detach$1(div);
-			destroy_component$1(nav);
+			if (detaching) detach(div);
+			destroy_component(nav);
 			if (if_block0) if_block0.d();
 			destroy_each(each_blocks_2, detaching);
 			if (if_block1) if_block1.d();
@@ -3759,7 +3803,7 @@ function create_fragment$6(ctx) {
 	};
 }
 
-function instance$6($$self, $$props, $$invalidate) {
+function instance$7($$self, $$props, $$invalidate) {
 	
 	
 	let { localeData } = $$props;
@@ -3806,11 +3850,11 @@ function instance$6($$self, $$props, $$invalidate) {
 
 	$$self.$$.update = () => {
 		if ($$self.$$.dirty & /*displayedMonth, localeData*/ 65537) {
-			 $$invalidate(14, month = getMonth(displayedMonth, localeData));
+			$$invalidate(14, month = getMonth(displayedMonth, localeData));
 		}
 
 		if ($$self.$$.dirty & /*today, localeData*/ 66560) {
-			 $$invalidate(15, daysOfWeek = getDaysOfWeek$1(today, localeData));
+			$$invalidate(15, daysOfWeek = getDaysOfWeek(today, localeData));
 		}
 	};
 
@@ -3835,12 +3879,12 @@ function instance$6($$self, $$props, $$invalidate) {
 	];
 }
 
-class Calendar extends SvelteComponent$1 {
+class Calendar$1 extends SvelteComponent {
 	constructor(options) {
 		super();
-		if (!document.getElementById("svelte-km7ymq-style")) add_css$5();
+		if (!document.getElementById("svelte-km7ymq-style")) add_css();
 
-		init$1(this, options, instance$6, create_fragment$6, not_equal$1, {
+		init(this, options, instance$7, create_fragment$7, not_equal, {
 			localeData: 16,
 			showWeekNums: 1,
 			onHoverDay: 2,
@@ -3896,7 +3940,7 @@ const langToMomentLocale = {
     ar: "ar",
     ja: "ja",
 };
-const weekdays$1 = [
+const weekdays = [
     "sunday",
     "monday",
     "tuesday",
@@ -3922,7 +3966,7 @@ function overrideGlobalMomentWeekStart(weekStart) {
     else {
         moment.updateLocale(currentLocale, {
             week: {
-                dow: weekdays$1.indexOf(weekStart) || 0,
+                dow: weekdays.indexOf(weekStart) || 0,
             },
         });
     }
@@ -3951,9 +3995,9 @@ function configureGlobalMomentLocale(localeOverride = "system-default", weekStar
     return currentLocale;
 }
 
-/* src/ui/Calendar.svelte generated by Svelte v3.32.3 */
+/* src/ui/Calendar.svelte generated by Svelte v3.35.0 */
 
-function create_fragment$7(ctx) {
+function create_fragment(ctx) {
 	let calendarbase;
 	let updating_displayedMonth;
 	let current;
@@ -3980,15 +4024,15 @@ function create_fragment$7(ctx) {
 		calendarbase_props.displayedMonth = /*displayedMonth*/ ctx[0];
 	}
 
-	calendarbase = new Calendar({ props: calendarbase_props });
-	binding_callbacks.push(() => bind(calendarbase, "displayedMonth", calendarbase_displayedMonth_binding));
+	calendarbase = new Calendar$1({ props: calendarbase_props });
+	binding_callbacks$1.push(() => bind(calendarbase, "displayedMonth", calendarbase_displayedMonth_binding));
 
 	return {
 		c() {
-			create_component(calendarbase.$$.fragment);
+			create_component$1(calendarbase.$$.fragment);
 		},
 		m(target, anchor) {
-			mount_component(calendarbase, target, anchor);
+			mount_component$1(calendarbase, target, anchor);
 			current = true;
 		},
 		p(ctx, [dirty]) {
@@ -4015,20 +4059,20 @@ function create_fragment$7(ctx) {
 		},
 		i(local) {
 			if (current) return;
-			transition_in(calendarbase.$$.fragment, local);
+			transition_in$1(calendarbase.$$.fragment, local);
 			current = true;
 		},
 		o(local) {
-			transition_out(calendarbase.$$.fragment, local);
+			transition_out$1(calendarbase.$$.fragment, local);
 			current = false;
 		},
 		d(detaching) {
-			destroy_component(calendarbase, detaching);
+			destroy_component$1(calendarbase, detaching);
 		}
 	};
 }
 
-function instance$7($$self, $$props, $$invalidate) {
+function instance($$self, $$props, $$invalidate) {
 	let $settings;
 	let $activeFile;
 	component_subscribe($$self, settings, $$value => $$invalidate(8, $settings = $$value));
@@ -4114,11 +4158,11 @@ function instance$7($$self, $$props, $$invalidate) {
 	];
 }
 
-class Calendar$1 extends SvelteComponent {
+class Calendar extends SvelteComponent$1 {
 	constructor(options) {
 		super();
 
-		init(this, options, instance$7, create_fragment$7, not_equal, {
+		init$1(this, options, instance, create_fragment, not_equal$1, {
 			displayedMonth: 0,
 			sources: 1,
 			onHoverDay: 2,
@@ -4143,7 +4187,7 @@ function showFileMenu(app, file, position) {
         .setIcon("trash")
         .onClick(() => {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        app.fileManager.promptForFolderDeletion(file);
+        app.fileManager.promptForFileDeletion(file);
     }));
     app.workspace.trigger("file-menu", fileMenu, file, "calendar-context-menu", null);
     fileMenu.showAtPosition(position);
@@ -4223,7 +4267,7 @@ async function getNumberOfRemainingTasks(note) {
     const fileContents = await vault.cachedRead(note);
     return (fileContents.match(/(-|\*) \[ \]/g) || []).length;
 }
-async function getDotsForDailyNote(dailyNote) {
+async function getDotsForDailyNote$1(dailyNote) {
     if (!dailyNote) {
         return [];
     }
@@ -4241,14 +4285,14 @@ async function getDotsForDailyNote(dailyNote) {
 const tasksSource = {
     getDailyMetadata: async (date) => {
         const file = getDailyNote_1(date, get_store_value(dailyNotes));
-        const dots = await getDotsForDailyNote(file);
+        const dots = await getDotsForDailyNote$1(file);
         return {
             dots,
         };
     },
     getWeeklyMetadata: async (date) => {
         const file = getWeeklyNote_1(date, get_store_value(weeklyNotes));
-        const dots = await getDotsForDailyNote(file);
+        const dots = await getDotsForDailyNote$1(file);
         return {
             dots,
         };
@@ -4266,7 +4310,7 @@ async function getWordLengthAsDots(note) {
     const numDots = wordCount / wordsPerDot;
     return clamp(Math.floor(numDots), 1, NUM_MAX_DOTS);
 }
-async function getDotsForDailyNote$1(dailyNote) {
+async function getDotsForDailyNote(dailyNote) {
     if (!dailyNote) {
         return [];
     }
@@ -4283,14 +4327,14 @@ async function getDotsForDailyNote$1(dailyNote) {
 const wordCountSource = {
     getDailyMetadata: async (date) => {
         const file = getDailyNote_1(date, get_store_value(dailyNotes));
-        const dots = await getDotsForDailyNote$1(file);
+        const dots = await getDotsForDailyNote(file);
         return {
             dots,
         };
     },
     getWeeklyMetadata: async (date) => {
         const file = getWeeklyNote_1(date, get_store_value(weeklyNotes));
-        const dots = await getDotsForDailyNote$1(file);
+        const dots = await getDotsForDailyNote(file);
         return {
             dots,
         };
@@ -4352,7 +4396,7 @@ class CalendarView extends obsidian.ItemView {
             tasksSource,
         ];
         this.app.workspace.trigger(TRIGGER_ON_OPEN, sources);
-        this.calendar = new Calendar$1({
+        this.calendar = new Calendar({
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             target: this.contentEl,
             props: {
@@ -4499,10 +4543,12 @@ class CalendarView extends obsidian.ItemView {
             });
             return;
         }
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const mode = this.app.vault.getConfig("defaultViewMode");
         const leaf = inNewSplit
             ? workspace.splitActiveLeaf()
             : workspace.getUnpinnedLeaf();
-        await leaf.openFile(existingFile);
+        await leaf.openFile(existingFile, { mode });
         activeFile.setFile(existingFile);
     }
 }

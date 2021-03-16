@@ -1,6 +1,6 @@
 ---
 title: How to use Enjoyment work features on your website
-tags: jekyll theme
+tags: 
 comments: true
 ---
 

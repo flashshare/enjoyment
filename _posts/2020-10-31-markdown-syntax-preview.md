@@ -3,8 +3,8 @@ layout: post
 title: "Markdown Syntax Preview"
 date: 2020-10-31
 tags:
-  - Jekyll
-  - Markdown
+  - 
+  - 
 author: Eric F.
 avatar: assets/img/common/ericf-avatar.png
 category: Example Posts
@@ -232,7 +232,7 @@ function fancyAlert(arg) {
 
 Result:
 
-- [x] @mentions, #refs, [links](), **formatting**, and <del>tags</del> supported
+- [x] @mentions, [links](), **formatting**, and <del>tags</del> supported
 - [x] list syntax required (any unordered or ordered list supported)
 - [x] this is a complete item
 - [ ] this is an incomplete item

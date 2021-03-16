@@ -4,43 +4,13 @@
     "type": "split",
     "children": [
       {
-        "id": "3e30711b4a70cf2c",
-        "type": "leaf",
-        "state": {
-          "type": "backlink",
-          "state": {
-            "file": "_notes/My career path.md",
-            "collapseAll": false,
-            "extraContext": false,
-            "sortOrder": "alphabetical",
-            "backlinkCollapsed": false,
-            "unlinkedCollapsed": true
-          }
-        }
-      },
-      {
-        "id": "81ad1a8cca74a053",
-        "type": "leaf",
-        "state": {
-          "type": "backlink",
-          "state": {
-            "file": "_notes/My career path.md",
-            "collapseAll": false,
-            "extraContext": false,
-            "sortOrder": "alphabetical",
-            "backlinkCollapsed": false,
-            "unlinkedCollapsed": true
-          }
-        }
-      },
-      {
-        "id": "374073047b41cea2",
+        "id": "3ac5c1f9d4f16c3d",
         "type": "leaf",
         "active": true,
         "state": {
           "type": "markdown",
           "state": {
-            "file": "_notes/My career path.md",
+            "file": "Thesis/chapter1_introduction.md",
             "mode": "source"
           }
         }
@@ -55,7 +25,7 @@
       {
         "id": "405f1f5341e0a3e1",
         "type": "tabs",
-        "dimension": 68.88111888111888,
+        "dimension": 74.22680412371135,
         "children": [
           {
             "id": "72a88e291ec337ac",
@@ -72,21 +42,13 @@
               "type": "empty",
               "state": {}
             }
-          },
-          {
-            "id": "7682367a711c8096",
-            "type": "leaf",
-            "state": {
-              "type": "starred",
-              "state": {}
-            }
           }
         ]
       },
       {
         "id": "2def770ef91d3f8a",
         "type": "tabs",
-        "dimension": 31.11888111888112,
+        "dimension": 25.773195876288657,
         "children": [
           {
             "id": "ebd3ea8b318dbe9e",
@@ -103,7 +65,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 250.01219177246094
+    "width": 249
   },
   "right": {
     "id": "bef299c3aa1634ff",
@@ -119,7 +81,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "_notes/My career path.md",
+                "file": "Thesis/chapter1_introduction.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -134,47 +96,42 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "tag:#📥️/📚️",
+                "query": "",
                 "matchingCase": false,
                 "explainSearch": false,
-                "collapseAll": false,
+                "collapseAll": true,
                 "extraContext": false,
                 "sortOrder": "alphabetical"
               }
             }
-          }
-        ]
-      },
-      {
-        "id": "ab748722ab96b414",
-        "type": "tabs",
-        "children": [
+          },
           {
-            "id": "aad22f5cfef6f17e",
+            "id": "aaf5710fac29faf5",
             "type": "leaf",
             "state": {
               "type": "outline",
               "state": {
-                "file": "_notes/My career path.md"
+                "file": "Thesis/chapter1_introduction.md"
               }
             }
           }
-        ]
+        ],
+        "currentTab": 2
       }
     ],
     "direction": "horizontal",
-    "width": 221
+    "width": 249
   },
   "lastOpenFiles": [
-    "_notes/My career path.md",
-    "_notes/Humility is the knowing of the epistemic gap.md",
-    "_notes/Epistemic humility to avoid unintended ontological dust while writing.md",
-    "_notes/How to use Github.md",
-    "_notes/How to create new notes for this blog.md",
-    "templates/Inputs/Person@.md",
-    "index.md",
-    "notes.md",
-    "_posts/wander_notebook/2020-10-25-the-duality-of-purpose-and-work.md",
-    "_notes/Dark theme adoption as a function of cognitive exhaustion.md"
+    "Thesis/chapter1_introduction.md",
+    "Thesis/1_title.md",
+    "Thesis/chapter2_extra_results.md",
+    "Thesis/chapter3_generaldiscussion.md",
+    "Thesis/_THESIS.pdf",
+    "_notes/Teaching QGIS Thinh.md",
+    "_notes/Untitled.md",
+    "_journals/October-27th-2020.md",
+    "_journals/October-13th-2020.md",
+    "_journals/October-20th-2020.md"
   ]
 }

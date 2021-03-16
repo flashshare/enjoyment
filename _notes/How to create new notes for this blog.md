@@ -10,7 +10,7 @@ Tags: #🗺️
 
 ---
 
-# [[How to create new notes for this blog]]
+# How to create new notes for this blog
 
 ---
 

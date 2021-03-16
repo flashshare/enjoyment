@@ -1,5 +1,5 @@
 ---
-tags: 📝️/🌱️
+tags: 🌱️-Book
 aliases: 
   - 
 cssclass: 

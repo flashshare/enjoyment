@@ -1,6 +1,6 @@
 ---
 title: My third check with Git plugin
-tags: jekyll theme 📝️/🌱
+tags: 
 comments: true
 ---
 

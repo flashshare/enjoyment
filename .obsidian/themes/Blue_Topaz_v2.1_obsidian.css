@@ -246,34 +246,34 @@ to get a right-side note block
   --font-size-obsidian-titlebar:             12px;
   --font-size-vault-name:                    14px;/*左侧库名字体大小*/
   --font-size-file-header-title:             15px;/*文件抬头标题，只在非Andy mode plugin时生效*/
-  --font-size-file-header-title-andy-plugin: 16px;/*文件抬头标题for Andy mode plugin*/
-  --font-size-embed-title-size:              18px;
-  --font-size-embed-file:                    20px;
+  --font-size-file-header-title-andy-plugin: 14px;/*文件抬头标题for Andy mode plugin*/
+  --font-size-embed-title-size:              14px;
+  --font-size-embed-file:                    14px;
   --font-size-folder-and-file:               13px;/*左侧边栏文件字体大小*/
-  --font-size-edit-normal:                   16px;/*编辑正文字体大小*/
-  --font-size-preview-normal:                16px;/*预览正文字体大小*/
-  --font-size-h1:                            25px;
-  --font-size-h2:                            23px;
-  --font-size-h3:                            21px;
-  --font-size-h4:                            19px;
-  --font-size-h5:                            17px;
-  --font-size-h6:                            15px;
-  --font-size-tag:                           16px;
-  --font-size-list:                          16px;
-  --font-size-preview-blockquote:            16px;
-  --font-size-edit-blockquote:               16px;
-  --font-size-code:                          15px;
-  --font-size-edit-code:                     16px;
-  --font-size-latex:                         20px;
-  --text-size-cloze:                         15px;
+  --font-size-edit-normal:                   15px;/*编辑正文字体大小*/
+  --font-size-preview-normal:                15px;/*预览正文字体大小*/
+  --font-size-h1:                            20px;
+  --font-size-h2:                            19px;
+  --font-size-h3:                            18px;
+  --font-size-h4:                            17px;
+  --font-size-h5:                            14px;
+  --font-size-h6:                            14px;
+  --font-size-tag:                           14px;
+  --font-size-list:                          14px;
+  --font-size-preview-blockquote:            14px;
+  --font-size-edit-blockquote:               14px;
+  --font-size-code:                          14px;
+  --font-size-edit-code:                     14px;
+  --font-size-latex:                         14px;
+  --text-size-cloze:                         14px;
 
   /*font family*/
-  --font-family-list:           'SVN-Madre Script'                                         ;/*列表字体*/
-  --font-family-major:        'SVN-Madre Script'                                           ;/*主体（包括列表）字体，除代码框等少数部分*/
-  --font-family-h1:         'SVN-Revolution'                                             ;
+  --font-family-list:           'FS Tropen Sans'                                         ;/*列表字体*/
+  --font-family-h1:         'SVN-Top Secret'                                             ;
+  --font-family-major:        'FS Tropen Sans'                                           ;/*主体（包括列表）字体，除代码框等少数部分*/
   --font-family-h2:        'SVN-Hemi Head'                                              ;
   --font-family-h3:         'SVN-Hemi Head'                                             ;
-  --font-family-h4:            'SFU Grenoble'                                          ;
+  --font-family-h4:            'SVN-Hemi Head'                                          ;
   --font-family-h5:                                                      ;
   --font-family-h6:                                                      ;
   --font-family-title:                                                   ;/*文件抬头标题*/
@@ -810,7 +810,7 @@ to get a right-side note block
 }
 
 .markdown-preview-view {
-  padding: 4px 20px 10px 28px;
+  padding: 2px 20px 10px 45px;
   width: 100%;
   height: 100%;
   position: relative;
@@ -1182,7 +1182,6 @@ div:not(.CodeMirror-activeline)>.CodeMirror-line span.cm-formatting-task.cm-prop
   font-weight:600;
   line-height: 1.3;
   padding-bottom:1px;
-  border-bottom: 2px solid var(--h1-color);
   font-family: var(--font-family-h1);
 }
 
@@ -1191,7 +1190,6 @@ div:not(.CodeMirror-activeline)>.CodeMirror-line span.cm-formatting-task.cm-prop
   font-weight:600;
   line-height: 1.3;
   padding-bottom: 1px;
-  border-bottom: 1px solid var(--h2-color);
   font-family: var(--font-family-h2);
 }
 
